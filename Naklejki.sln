@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Naklejki", "Naklejki\Naklejki.csproj", "{4EB7FEA4-CAE4-4309-9E61-E49F50D48571}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "Naklejki\API.csproj", "{4EB7FEA4-CAE4-4309-9E61-E49F50D48571}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{4D328B86-EAAA-4350-8497-B374468EEEF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "Database\Database.csproj", "{4D328B86-EAAA-4350-8497-B374468EEEF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

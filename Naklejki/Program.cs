@@ -1,7 +1,14 @@
+using Database;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<LabelDbContext>(
+    option => option.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionString"))
+    );
 
 var app = builder.Build();
 

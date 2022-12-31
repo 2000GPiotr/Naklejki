@@ -11,12 +11,12 @@ namespace Database.Entities
         public Enums.LabelStatus LabelStatus { get; set; }
         public DateTime LabelEndTime { get; set; }
         public string LabelNumber { get; set; }
+        public string LabelTypeId { get; set; }
+        public int UserId { get; set; }
 
         //Relations
         public LabelType LabelType { get; set; }
-        public string LabelTypeId { get; set; }
-
         public User User { get; set; }
-        public int UserId { get; set; }
-    }
+        public List<Items> Items { get; set; } = new List<Items>();
+    }   
 }

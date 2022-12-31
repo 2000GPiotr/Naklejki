@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,13 +10,15 @@ namespace Database.Entities
 {
     public class User
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
 
         // Relations
-        public ICollection<Roles> Roles { get; set; } = new List<Roles>();
+        public List<Roles> Roles { get; set; } = new List<Roles>();
         public Password Password { get; set; }
-        public int PasswordId { get; set; }
+        public List<DocumentHeader> DocumentHeaders  { get; set; } = new List<DocumentHeader>();
+        public List<Registry> Registries { get; set; } = new List<Registry>();
     }
 }
