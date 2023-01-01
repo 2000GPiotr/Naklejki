@@ -13,25 +13,25 @@ namespace Services.Services
 {
     public class LabelTypeService : ILabelTypeService
     {
-        private readonly LabelDbContext _bdContext;
+        private readonly LabelDbContext _dbContext;
         public LabelTypeService(LabelDbContext bdContext)
         {
-            _bdContext = bdContext;
+            _dbContext = bdContext;
         }
 
         public async Task<LabelType> CreateLabelType(LabelTypeDto labelTypeDto)
         {
             var newLabelType = new LabelType() { Symbol = labelTypeDto.Symbol, Count = labelTypeDto.Count, Description = labelTypeDto.Description };
 
-            await _bdContext.AddAsync(newLabelType);
-            await _bdContext.SaveChangesAsync();
+            await _dbContext.AddAsync(newLabelType);
+            await _dbContext.SaveChangesAsync();
 
             return newLabelType;
         }
 
         public async Task<IEnumerable<LabelTypeDto>> GetAllLabelTypes()
         {
-            var labels = await _bdContext
+            var labels = await _dbContext
                 .LabelTypes
                 .ToListAsync();
 
@@ -46,7 +46,7 @@ namespace Services.Services
 
         public async Task<LabelTypeDto> DeleteLabelTypeBySymbol(string symbol)
         {
-            var labelType = await _bdContext
+            var labelType = await _dbContext
                 .LabelTypes
                 .FirstOrDefaultAsync(x => x.Symbol == symbol);
 
@@ -55,15 +55,15 @@ namespace Services.Services
 
             var toReturn = new LabelTypeDto() { Count = labelType.Count, Symbol = labelType.Symbol, Description = labelType.Description };
 
-            _bdContext.LabelTypes.Remove(labelType);
-            await _bdContext.SaveChangesAsync();
+            _dbContext.LabelTypes.Remove(labelType);
+            await _dbContext.SaveChangesAsync();
 
             return toReturn;
         }
 
         public async Task<LabelTypeDto> GetLabelTypeBySymbol(string symbol)
         {
-            var labelType = await _bdContext
+            var labelType = await _dbContext
                 .LabelTypes
                 .FirstOrDefaultAsync(x => x.Symbol == symbol);
 
@@ -74,14 +74,14 @@ namespace Services.Services
 
         public async Task<LabelType> UpdateLabelTypeBySymbol(string symbol, UpdateLabelTypeDto labelTypeDto)
         {
-            var labelType = await _bdContext
+            var labelType = await _dbContext
                 .LabelTypes
                 .FirstOrDefaultAsync(x => x.Symbol == symbol);
  
             labelType.Count = labelTypeDto.Count;
             labelType.Description = labelTypeDto.Description;
 
-            await _bdContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
             return labelType;
         }
     }
