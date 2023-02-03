@@ -3,6 +3,7 @@ using System;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Database.Migrations
 {
     [DbContext(typeof(LabelDbContext))]
-    partial class LabelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230101184120_M5")]
+    partial class M5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,9 +40,8 @@ namespace Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("DocumentTypeId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("DocumentType")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Number")
                         .HasColumnType("integer");
@@ -52,25 +54,9 @@ namespace Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DocumentTypeId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("DocumentHeaders");
-                });
-
-            modelBuilder.Entity("Database.Entities.DocumentType", b =>
-                {
-                    b.Property<string>("Symbol")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Symbol");
-
-                    b.ToTable("DocumentTypes");
                 });
 
             modelBuilder.Entity("Database.Entities.Items", b =>
@@ -104,19 +90,6 @@ namespace Database.Migrations
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("Database.Entities.LabelStatus", b =>
-                {
-                    b.Property<string>("Symbol")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.HasKey("Symbol");
-
-                    b.ToTable("LabelStatus");
-                });
-
             modelBuilder.Entity("Database.Entities.LabelType", b =>
                 {
                     b.Property<string>("Symbol")
@@ -133,30 +106,6 @@ namespace Database.Migrations
                     b.ToTable("LabelTypes");
                 });
 
-            modelBuilder.Entity("Database.Entities.Password", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Hash")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Round")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Salt")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Passwords");
-                });
-
             modelBuilder.Entity("Database.Entities.Registry", b =>
                 {
                     b.Property<string>("LabelTypeId")
@@ -168,40 +117,17 @@ namespace Database.Migrations
                     b.Property<DateTime>("LabelEndTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("LabelStatusId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("LabelStatus")
+                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("LabelTypeId", "LabelNumber");
 
-                    b.HasIndex("LabelStatusId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Registry");
-                });
-
-            modelBuilder.Entity("Database.Entities.Roles", b =>
-                {
-                    b.Property<int>("Key")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Key"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Nazwa")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Key");
-
-                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Database.Entities.User", b =>
@@ -212,12 +138,24 @@ namespace Database.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Hash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("PasswordId")
+                    b.Property<int[]>("Roles")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
+
+                    b.Property<int>("Round")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -225,42 +163,16 @@ namespace Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PasswordId")
-                        .IsUnique();
-
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("RolesUser", b =>
-                {
-                    b.Property<int>("RolesKey")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("RolesKey", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("RolesUser");
                 });
 
             modelBuilder.Entity("Database.Entities.DocumentHeader", b =>
                 {
-                    b.HasOne("Database.Entities.DocumentType", "DocumentType")
-                        .WithMany("DocumentHeaders")
-                        .HasForeignKey("DocumentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Database.Entities.User", "User")
                         .WithMany("DocumentHeaders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("DocumentType");
 
                     b.Navigation("User");
                 });
@@ -294,12 +206,6 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Database.Entities.Registry", b =>
                 {
-                    b.HasOne("Database.Entities.LabelStatus", "LabelStatus")
-                        .WithMany("Registries")
-                        .HasForeignKey("LabelStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Database.Entities.LabelType", "LabelType")
                         .WithMany("Registries")
                         .HasForeignKey("LabelTypeId")
@@ -312,37 +218,9 @@ namespace Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("LabelStatus");
-
                     b.Navigation("LabelType");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Database.Entities.User", b =>
-                {
-                    b.HasOne("Database.Entities.Password", "Password")
-                        .WithOne("User")
-                        .HasForeignKey("Database.Entities.User", "PasswordId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Password");
-                });
-
-            modelBuilder.Entity("RolesUser", b =>
-                {
-                    b.HasOne("Database.Entities.Roles", null)
-                        .WithMany()
-                        .HasForeignKey("RolesKey")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Database.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Database.Entities.DocumentHeader", b =>
@@ -350,27 +228,11 @@ namespace Database.Migrations
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("Database.Entities.DocumentType", b =>
-                {
-                    b.Navigation("DocumentHeaders");
-                });
-
-            modelBuilder.Entity("Database.Entities.LabelStatus", b =>
-                {
-                    b.Navigation("Registries");
-                });
-
             modelBuilder.Entity("Database.Entities.LabelType", b =>
                 {
                     b.Navigation("Items");
 
                     b.Navigation("Registries");
-                });
-
-            modelBuilder.Entity("Database.Entities.Password", b =>
-                {
-                    b.Navigation("User")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Database.Entities.Registry", b =>

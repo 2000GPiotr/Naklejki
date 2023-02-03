@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Database.Entities
 {
@@ -11,15 +6,16 @@ namespace Database.Entities
     {
         [Key]
         public int Id { get; set; }
-        public Enums.DocumentTypes DocumentType { get; set; }
         public int Year { get; set; }
         public int Number { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; } = string.Empty;
+        public int UserId { get; set; }
+        public string DocumentTypeId { get; set; }
 
         //Relations 
         public User User { get; set; }
-        public int UserId { get; set; }
+        public DocumentType DocumentType { get; set; }
         public List<Items> Items { get; set; } = new List<Items>();
     }
 }

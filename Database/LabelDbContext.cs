@@ -13,6 +13,7 @@ namespace Database
         public DbSet<LabelType> LabelTypes { get; set; }
         public DbSet<Items> Items { get; set; }
         public DbSet<DocumentHeader> DocumentHeaders { get; set; }
+        public DbSet<DocumentType> DocumentTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,7 +30,7 @@ namespace Database
             {
                 eb.HasOne(u => u.Password)
                 .WithOne(p => p.User)
-                .HasForeignKey<Password>(p => p.UserId);
+                .HasForeignKey<User>(p => p.PasswordId);
 
                 eb.HasMany(u => u.DocumentHeaders)
                 .WithOne(h => h.User)
@@ -38,6 +39,9 @@ namespace Database
                 eb.HasMany(u => u.Registries)
                 .WithOne(r => r.User)
                 .HasForeignKey(r => r.UserId);
+
+                eb.HasMany(u => u.Roles)
+                .WithMany(r => r.Users);
             });
 
             modelBuilder.Entity<DocumentHeader>(eb =>
@@ -60,6 +64,20 @@ namespace Database
                 eb.HasMany(t => t.Registries)
                 .WithOne(r => r.LabelType)
                 .HasForeignKey(r => r.LabelTypeId);
+            });
+
+            modelBuilder.Entity<DocumentType>(eb =>
+            {
+                eb.HasMany(t => t.DocumentHeaders)
+                .WithOne(h => h.DocumentType)
+                .HasForeignKey(h => h.DocumentTypeId);
+            });
+
+            modelBuilder.Entity<LabelStatus>(eb =>
+            {
+                eb.HasMany(s => s.Registries)
+                .WithOne(r => r.LabelStatus)
+                .HasForeignKey(r => r.LabelStatusId);
             });
         }
     }

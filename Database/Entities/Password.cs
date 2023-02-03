@@ -11,7 +11,6 @@ namespace Database.Entities
     {
         [Key]
         public int Id { get; set; }
-        public int UserId { get; set; }
         public int Round { get; set; }
         public string Salt { get; set; }
         public string Hash { get; set; }

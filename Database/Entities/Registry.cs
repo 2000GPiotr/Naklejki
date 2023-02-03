@@ -8,15 +8,16 @@ namespace Database.Entities
 {
     public class Registry
     {
-        public Enums.LabelStatus LabelStatus { get; set; }
         public DateTime LabelEndTime { get; set; }
         public string LabelNumber { get; set; }
         public string LabelTypeId { get; set; }
         public int UserId { get; set; }
+        public string LabelStatusId { get; set; }
 
         //Relations
         public LabelType LabelType { get; set; }
         public User User { get; set; }
         public List<Items> Items { get; set; } = new List<Items>();
+        public LabelStatus LabelStatus { get; set; }
     }   
 }

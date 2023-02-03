@@ -3,6 +3,7 @@ using System;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Database.Migrations
 {
     [DbContext(typeof(LabelDbContext))]
-    partial class LabelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230201192137_aa")]
+    partial class aa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,30 +136,6 @@ namespace Database.Migrations
                     b.ToTable("LabelTypes");
                 });
 
-            modelBuilder.Entity("Database.Entities.Password", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Hash")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Round")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Salt")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Passwords");
-                });
-
             modelBuilder.Entity("Database.Entities.Registry", b =>
                 {
                     b.Property<string>("LabelTypeId")
@@ -212,21 +191,26 @@ namespace Database.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Hash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("PasswordId")
+                    b.Property<int>("Round")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PasswordId")
-                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -319,17 +303,6 @@ namespace Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Database.Entities.User", b =>
-                {
-                    b.HasOne("Database.Entities.Password", "Password")
-                        .WithOne("User")
-                        .HasForeignKey("Database.Entities.User", "PasswordId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Password");
-                });
-
             modelBuilder.Entity("RolesUser", b =>
                 {
                     b.HasOne("Database.Entities.Roles", null)
@@ -365,12 +338,6 @@ namespace Database.Migrations
                     b.Navigation("Items");
 
                     b.Navigation("Registries");
-                });
-
-            modelBuilder.Entity("Database.Entities.Password", b =>
-                {
-                    b.Navigation("User")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Database.Entities.Registry", b =>
