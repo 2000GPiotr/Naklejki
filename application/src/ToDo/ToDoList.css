@@ -1,0 +1,14 @@
+.card{
+    padding: 10px;
+    border: 3px solid #cdcdcd;
+    margin: 10px;
+}
+
+
+.card.completed{
+    opacity: .5;
+}
+
+.card.card.completed h2{
+    text-decoration: line-through;
+}
