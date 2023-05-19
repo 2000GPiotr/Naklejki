@@ -14,7 +14,8 @@ namespace Database
         public DbSet<Items> Items { get; set; }
         public DbSet<DocumentHeader> DocumentHeaders { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
-
+        public DbSet<Roles> Roles { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Registry>(eb =>

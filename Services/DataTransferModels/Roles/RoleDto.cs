@@ -1,24 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Database.Entities
+namespace Services.DataTransferModels.Roles
 {
-    public class Roles
+    public class RoleDto
     {
-        [Key]
         public int Id { get; set; }
         public string Nazwa { get; set; }
         public string? Description { get; set; }
-
-        // Relations
-        public List<User> Users = new List<User>();
     }
 }
-
-        //Admin,
-        //Director,
-        //User

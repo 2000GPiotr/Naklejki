@@ -1,6 +1,6 @@
 ﻿using Database.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Services.DataTransferModels;
+using Services.DataTransferModels.LabelType;
 using Services.Interfaces;
 
 namespace API.Controllers

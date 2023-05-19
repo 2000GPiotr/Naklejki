@@ -1,7 +1,7 @@
 ﻿using Database;
 using Database.Entities;
 using Microsoft.EntityFrameworkCore;
-using Services.DataTransferModels;
+using Services.DataTransferModels.LabelType;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;

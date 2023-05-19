@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.DataTransferModels
+namespace Services.DataTransferModels.LabelType
 {
-    public class UpdateLabelTypeDto
+    public class LabelTypeDto
     {
-        public string Description { get; set; }
+        public string Symbol { get; set; }
+        public string? Description { get; set; }
         public int Count { get; set; }
     }
 }

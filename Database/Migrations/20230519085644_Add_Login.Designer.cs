@@ -3,6 +3,7 @@ using System;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Database.Migrations
 {
     [DbContext(typeof(LabelDbContext))]
-    partial class LabelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230519085644_Add_Login")]
+    partial class AddLogin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,11 +189,11 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Database.Entities.Roles", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Key")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Key"));
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -199,7 +202,7 @@ namespace Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("Key");
 
                     b.ToTable("Roles");
                 });
@@ -237,13 +240,13 @@ namespace Database.Migrations
 
             modelBuilder.Entity("RolesUser", b =>
                 {
-                    b.Property<int>("RolesId")
+                    b.Property<int>("RolesKey")
                         .HasColumnType("integer");
 
                     b.Property<int>("UsersId")
                         .HasColumnType("integer");
 
-                    b.HasKey("RolesId", "UsersId");
+                    b.HasKey("RolesKey", "UsersId");
 
                     b.HasIndex("UsersId");
 
@@ -338,7 +341,7 @@ namespace Database.Migrations
                 {
                     b.HasOne("Database.Entities.Roles", null)
                         .WithMany()
-                        .HasForeignKey("RolesId")
+                        .HasForeignKey("RolesKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
