@@ -1,18 +1,28 @@
 import React, { useState } from "react";
-import { UserType } from "./UserTypes";
+import { CreateUserType, RoleType, UserType } from "./UserTypes";
 import './UserManagementScreen.css'
 
 type PropsType = {
-    user: UserType;
+    user: CreateUserType;
     onSave: (user: UserType) => void;
     onClose: () => void;
 };
 
 const UserAdd = (props: PropsType) => {
-    const [editedUser, setEditedUser] = useState<UserType>({ ...props.user });
+    const [editedUser, setEditedUser] = useState<CreateUserType>({ ...props.user });
+    const [roles] = useState<RoleType[]>([{Id: 1, Nazwa: 'Admin', Description: 'Opis a'}, {Id: 2, Nazwa: 'User', Description: 'Opis u'}, {Id: 3, Nazwa: 'Magasinier', Description: 'Opis m'}]);
+
   
     const handleSave = () => {
-      props.onSave(editedUser);
+      const newUser: UserType = {
+        Id: 0,
+        Login: editedUser.Login,
+        Name: editedUser.Name,
+        Surname: editedUser.Surname,
+        Roles: editedUser.Roles,
+        ShowDetails: false
+      }
+      props.onSave(newUser);
       props.onClose();
     };
   
@@ -20,7 +30,7 @@ const UserAdd = (props: PropsType) => {
       props.onClose();
     };
     
-    const handleRoleChange = (role: string, isChecked: boolean) => {
+    const handleRoleChange = (role: RoleType, isChecked: boolean) => {
         const roles = [...editedUser.Roles];
         if (isChecked) {
           roles.push(role);
@@ -45,14 +55,22 @@ const UserAdd = (props: PropsType) => {
             Surname:
             <input type="text" value={editedUser.Surname} onChange={(e) => setEditedUser({ ...editedUser, Surname: e.target.value })} />
           </label>
+          <label>
+            Login:
+            <input type="text" value={editedUser.Login} onChange={(e) => setEditedUser({ ...editedUser, Login: e.target.value })} />
+          </label>
+          <label>
+            Password:
+            <input type="password" onChange={(e) => setEditedUser({ ...editedUser, Password: e.target.value })} />
+          </label>
           <div>
           <p>Roles:</p>
-          {["admin", "user", "magasinier"].map((role) => (
-            <label className="checkboxInput" key={role}>
-            <div>{role}</div>
+          {roles.map((role) => (
+            <label className="checkboxInput" key={role.Id}>
+            <div>{role.Nazwa}</div>
               <input
                 type="checkbox"
-                checked={editedUser.Roles.includes(role)}
+                checked={role.Nazwa === 'User'}
                 onChange={(e) => handleRoleChange(role, e.target.checked)}
               />
             </label>

@@ -9,12 +9,18 @@ type PropsType = {
 const UserOverview = (props: PropsType) =>{
     const printArray = (array: any[]) => array.join(", ")
     
-    return(
+    return (
         <div>
-            <h2>{props.user.Name} {props.user.Surname}</h2>
-            {props.user.ShowDetails ? <div>{props.user.Id} {printArray(props.user.Roles)}</div> : ''}
+          <h2>{props.user.Name} {props.user.Surname}</h2>
+          {props.user.ShowDetails ? (
+            <div>
+              <div>{props.user.Id}</div>
+              <div>{props.user.Login}</div>
+              <div>{printArray(props.user.Roles.map(r => r.Nazwa))}</div>
+            </div>
+          ) : null}
         </div>
-    )
+      );
 }
 
 export default UserOverview

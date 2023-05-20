@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import {UserType} from './UserTypes'
+import {CreateUserType, UpdateUserType, UserType} from './UserTypes'
 import UserItem from './UserItem'
 import UserEdit from "./UserEdit"
 import UserAdd from "./UserAdd"
@@ -7,13 +7,13 @@ import UserAdd from "./UserAdd"
 
 const UserList = () => {
     const [users, setUsers] = useState<UserType[]>([
-      {Id: 1, Name: 'Jan', Surname: 'Kowalski', Roles: ['admin', 'user'], ShowDetails: false},
-      {Id: 2, Name: 'Anna', Surname: 'Nowak', Roles: ['admin', 'user', 'magasinier'], ShowDetails: false},
-      {Id: 3, Name: 'Krzysztof', Surname: 'Dąb', Roles: ['user'], ShowDetails: false}
+      {Id: 1, Login: 'JK', Name: 'Jan', Surname: 'Kowalski', Roles: [{Id: 1, Nazwa: 'Admin', Description: 'Opis a'}, {Id: 2, Nazwa: 'User', Description: 'Opis u'}], ShowDetails: false},
+      {Id: 2, Login: 'AN', Name: 'Anna', Surname: 'Nowak', Roles: [{Id: 2, Nazwa: 'User', Description: 'Opis u'}], ShowDetails: false},
+      {Id: 3, Login: 'KD', Name: 'Krzysztof', Surname: 'Dąb', Roles: [{Id: 2, Nazwa: 'User', Description: 'Opis u'}], ShowDetails: false}
     ]);
-    const [selectedUser, setSelectedUser] = useState<UserType | undefined>(undefined);
+    const [userToUpdate, setUserToUpdate] = useState<UpdateUserType | undefined>(undefined);
 
-    const [addUser, setAddUser] = useState<boolean>(true);
+    const [userToCreate, setUserToCreate] = useState<CreateUserType | undefined>(undefined);
 
     const details = (id:number) => {
         const index = users.findIndex(x => x.Id === id);
@@ -25,21 +25,19 @@ const UserList = () => {
         setUsers(newUsers);
     };
 
-    const handleEditUser = (user: UserType) => {
-        setAddUser(false);
-        setSelectedUser(user);
-      };
+    const handleEditUser = (user: UpdateUserType) => {
+      setUserToUpdate(user);
+    };
 
-    const handleAddUser = () => {
-        setAddUser(true);
-        const newUser:UserType = {
-            Id: Math.random(),
+    const handleCreateUser = () => {
+        const newUser:CreateUserType = {
             Name: '',
             Surname: '',
-            Roles: ['user'],
-            ShowDetails: false
+            Login: '',
+            Password: '',
+            Roles: [],
          }
-         setSelectedUser(newUser);
+         setUserToCreate(newUser);
     };
 
     const handleSave = (user: UserType) => {
@@ -53,7 +51,8 @@ const UserList = () => {
         const newUsers = [...users, user];
         setUsers(newUsers);
       }
-      setSelectedUser(undefined);
+      setUserToCreate(undefined);
+      setUserToUpdate(undefined);
     };
 
     const handleDeleteUser = (id: number) =>{
@@ -70,13 +69,13 @@ const UserList = () => {
     return (
       <div>
         <h1>Users</h1>
-        <button onClick={() => handleAddUser()}>Add new user</button>
+        <button onClick={() => handleCreateUser()}>Add new user</button>
         {usersList}
-        {selectedUser && !addUser && (
-        <UserEdit user={selectedUser} onSave={handleSave} onClose={() => setSelectedUser(undefined)} />
+        {userToUpdate && (
+        <UserEdit user={userToUpdate} onSave={handleSave} onClose={() => setUserToUpdate(undefined)} />
         )}
-        {selectedUser && addUser && (
-        <UserAdd user={selectedUser} onSave={handleSave} onClose={() => setSelectedUser(undefined)} />
+        {userToCreate && (
+        <UserAdd user={userToCreate} onSave={handleSave} onClose={() => setUserToCreate(undefined)} />
         )}
       </div>
     );
