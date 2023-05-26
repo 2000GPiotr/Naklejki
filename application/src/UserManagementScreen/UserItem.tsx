@@ -29,7 +29,6 @@ const UserItem = (props: PropsType) => {
 
     return(
         <div className="userCard">
-            {/* <UserOverview user={props.user} details={props.details}></UserOverview>            */}
             <div>
                 <h2>{props.user.name} {props.user.surname}</h2>
                 {props.user.ShowDetails ? (

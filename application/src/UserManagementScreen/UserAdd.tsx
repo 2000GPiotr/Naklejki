@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { CreateUserType, RoleType, UserType } from "./UserTypes";
 import './UserManagementScreen.css'
-import { fetchData, postData } from "./Helpers";
+import { postData } from "./Helpers";
 import { RoleContext } from "./RoleContext";
 
 type PropsType = {
