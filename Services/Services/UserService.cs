@@ -1,4 +1,5 @@
-﻿using Database;
+﻿using AutoMapper;
+using Database;
 using Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Services.DataTransferModels.Roles;
@@ -16,16 +17,18 @@ namespace Services.Services
     {
         private readonly LabelDbContext _dbContext;
         private readonly IRolesService _rolesService;
-        public UserService(LabelDbContext dbContext, IRolesService rolesService)
+        private readonly IMapper _mapper;
+        public UserService(LabelDbContext dbContext, IRolesService rolesService, IMapper mapper)
         {
             _dbContext = dbContext;
             _rolesService = rolesService;
+            _mapper = mapper;
         }
 
         public async Task<UserDto> CreateUser(CreateUserDto userDto)
         {
-            var newUser = new User() { Login = userDto.Login, Name = userDto.Name, Surname = userDto.Surname};
-            var newPassword = new Password() { Hash = userDto.Password, Round=0, Salt = "" };
+            var newUser = _mapper.Map<User>(userDto);
+
             var roles = new List<Roles>();
 
             foreach(var id in userDto.RolesId)
@@ -36,18 +39,12 @@ namespace Services.Services
             }
 
             newUser.Roles = roles;
-            newUser.Password = newPassword;
 
             await _dbContext.AddAsync(newUser);
             await _dbContext.SaveChangesAsync();
 
-            var toReturn = new UserDto() { Id = newUser.Id, Login = newUser.Login, Name = newUser.Name, Surname = newUser.Surname};
-            toReturn.Roles = new List<RoleDto>();
-            foreach(var role in roles)
-            {
-                var newRoleDto = new RoleDto() { Id = role.Id, Nazwa = role.Nazwa, Description = role.Description };
-                toReturn.Roles.Add(newRoleDto);
-            }
+            var toReturn =_mapper.Map<UserDto>(newUser);
+            toReturn.Roles = _mapper.Map<List<RoleDto>>(roles);
 
             return toReturn;
         }
@@ -63,7 +60,7 @@ namespace Services.Services
             if (user == null)
                 throw new Exception();
 
-            var toReturn = new UserDto() { Name = user.Name, Id = user.Id, Surname = user.Surname, Login = user.Login, Roles = new List<RoleDto>() };
+            var toReturn = _mapper.Map<UserDto>(user);
             foreach (var role in user.Roles)
             {
                 var newRoleDto = new RoleDto() { Id = role.Id, Nazwa = role.Nazwa, Description = role.Description };
@@ -83,32 +80,9 @@ namespace Services.Services
                 .Include(u => u.Roles)
                 .ToListAsync();
 
-            var toReturn = new List<UserDto>();
-
-            foreach(var user in users)
-            {
-                var newUser = new UserDto()
-                {
-                    Name = user.Name,
-                    Id = user.Id,
-                    Surname = user.Surname,
-                    Login = user.Login,
-                    Roles = new List<RoleDto>()
-                };
-
-                foreach (var role in user.Roles)
-                {
-                    newUser.Roles.Add(new RoleDto() { Id = role.Id, Nazwa = role.Nazwa, Description = role.Description });
-                }
-                toReturn.Add(newUser);
-            }
+            var toReturn = _mapper.Map<List<UserDto>>(users);
 
             return toReturn;
-        }
-
-        public Task<UpdateUserDto> GetUpdateUserById(int id)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<UserDto> UpdateUser(UpdateUserDto userDto, int id)
@@ -122,14 +96,12 @@ namespace Services.Services
             if (user == null)
                 throw new Exception();
 
-            user.Login = userDto.Login;
-            user.Name = userDto.Name;
-            user.Surname = userDto.Surname;
-            user.Roles = new List<Roles>();
+            user = _mapper.Map(userDto, user);
 
             if (userDto.Password != "")
                 user.Password.Hash = userDto.Password;
 
+            user.Roles.Clear();
             foreach (var roleId in userDto.RolesId)
             {
                 var role = await _rolesService.GetRolesById(roleId);
@@ -138,12 +110,7 @@ namespace Services.Services
 
             await _dbContext.SaveChangesAsync();
 
-            var toReturn = new UserDto() { Id = user.Id, Login = user.Login, Name = user.Name, Surname = user.Surname, Roles = new List<RoleDto>() };
-            foreach (var role in user.Roles)
-            {
-                var newRoleDto = new RoleDto() { Id = role.Id, Nazwa = role.Nazwa, Description = role.Description };
-                toReturn.Roles.Add(newRoleDto);
-            }
+            var toReturn = _mapper.Map<UserDto>(user);
 
             return toReturn;
         }
