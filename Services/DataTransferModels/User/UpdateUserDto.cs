@@ -14,5 +14,6 @@ namespace Services.DataTransferModels.User
         public string Name { get; set; }
         public string Surname { get; set; }
         public List<int> RolesId { get; set; }
+        public string Password { get; set; }
     }
 }

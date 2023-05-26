@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { RoleType, UpdateUserType, UserType } from "./UserTypes";
 import './UserManagementScreen.css'
+import { fetchData, postData, putData } from "./Helpers";
+import { RoleContext } from "./RoleContext";
 
 type PropsType = {
     user: UpdateUserType;
@@ -10,18 +12,30 @@ type PropsType = {
 
 const UserEdit = (props: PropsType) => {
     const [editedUser, setEditedUser] = useState<UpdateUserType>({ ...props.user });
-    const [roles] = useState<RoleType[]>([{Id: 1, Nazwa: 'Admin', Description: 'Opis a'}, {Id: 2, Nazwa: 'User', Description: 'Opis u'}, {Id: 3, Nazwa: 'Magasinier', Description: 'Opis m'}]);
+    const roles = useContext(RoleContext);
+    
+   
+
 
     const handleSave = () => {
-      const newUser: UserType = {
-        Id: editedUser.Id,
-        Login: editedUser.Login,
-        Name: editedUser.Name,
-        Surname: editedUser.Surname,
-        Roles: editedUser.Roles,
-        ShowDetails: true
-      }
-      props.onSave(newUser);
+      const url = 'http://localhost:5021/User/' + editedUser.id;
+      putData(url, editedUser)
+        .then(responseData => {
+          console.log('Response:', responseData);
+          const {id, login, name, surname, roles} = responseData;
+          const user: UserType = {
+            id: id,
+            login: login,
+            name: name,
+            surname: surname,
+            roles: roles,
+            ShowDetails: false
+          };
+          props.onSave(user);
+        })
+        .catch(error => {
+          console.error('Error: ', error);
+        });
       props.onClose();
     };
   
@@ -30,16 +44,16 @@ const UserEdit = (props: PropsType) => {
     };
     
     const handleRoleChange = (role: RoleType, isChecked: boolean) => {
-        const roles = [...editedUser.Roles];
+        const roles = [...editedUser.rolesId];
         if (isChecked) {
-          roles.push(role);
+          roles.push(role.id);
         } else {
-          const index = roles.indexOf(role);
+          const index = roles.indexOf(role.id);
           if (index !== -1) {
             roles.splice(index, 1);
           }
         }
-        setEditedUser({ ...editedUser, Roles: roles });
+        setEditedUser({ ...editedUser, rolesId: roles });
       };
   
     return (
@@ -48,28 +62,28 @@ const UserEdit = (props: PropsType) => {
           <h2>Edit user</h2>
           <label>
             Name:
-            <input type="text" value={editedUser.Name} onChange={(e) => setEditedUser({ ...editedUser, Name: e.target.value })} />
+            <input type="text" value={editedUser.name} onChange={(e) => setEditedUser({ ...editedUser, name: e.target.value })} />
           </label>
           <label>
             Surname:
-            <input type="text" value={editedUser.Surname} onChange={(e) => setEditedUser({ ...editedUser, Surname: e.target.value })} />
+            <input type="text" value={editedUser.surname} onChange={(e) => setEditedUser({ ...editedUser, surname: e.target.value })} />
           </label>
           <label>
             Login:
-            <input type="text" value={editedUser.Login} onChange={(e) => setEditedUser({ ...editedUser, Login: e.target.value })} />
+            <input type="text" value={editedUser.login} onChange={(e) => setEditedUser({ ...editedUser, login: e.target.value })} />
           </label>
           <label>
             Password:
-            <input type="password" onChange={(e) => setEditedUser({ ...editedUser, Password: e.target.value })} />
+            <input type="password" onChange={(e) => setEditedUser({ ...editedUser, password: e.target.value })} />
           </label>
           <div>
           <p>Roles:</p>
           {roles.map((role) => (
-            <label className="checkboxInput" key={role.Id}>
-            <div>{role.Nazwa}</div>
+            <label className="checkboxInput" key={role.id}>
+            <div>{role.nazwa}</div>
               <input
                 type="checkbox"
-                checked={editedUser.Roles.some((r) => r.Id === role.Id)}
+                checked={editedUser.rolesId.includes(role.id)}
                 onChange={(e) => handleRoleChange(role, e.target.checked)}
               />
             </label>

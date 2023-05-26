@@ -1,22 +1,35 @@
-import React, { useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import {CreateUserType, UpdateUserType, UserType} from './UserTypes'
 import UserItem from './UserItem'
 import UserEdit from "./UserEdit"
 import UserAdd from "./UserAdd"
+import { deleteData, fetchData } from "./Helpers"
+import { RoleContext } from "./RoleContext"
+
 
 
 const UserList = () => {
-    const [users, setUsers] = useState<UserType[]>([
-      {Id: 1, Login: 'JK', Name: 'Jan', Surname: 'Kowalski', Roles: [{Id: 1, Nazwa: 'Admin', Description: 'Opis a'}, {Id: 2, Nazwa: 'User', Description: 'Opis u'}], ShowDetails: false},
-      {Id: 2, Login: 'AN', Name: 'Anna', Surname: 'Nowak', Roles: [{Id: 2, Nazwa: 'User', Description: 'Opis u'}], ShowDetails: false},
-      {Id: 3, Login: 'KD', Name: 'Krzysztof', Surname: 'Dąb', Roles: [{Id: 2, Nazwa: 'User', Description: 'Opis u'}], ShowDetails: false}
-    ]);
-    const [userToUpdate, setUserToUpdate] = useState<UpdateUserType | undefined>(undefined);
+    const [users, setUsers] = useState<UserType[]>([]);
 
+    const [userToUpdate, setUserToUpdate] = useState<UpdateUserType | undefined>(undefined);
     const [userToCreate, setUserToCreate] = useState<CreateUserType | undefined>(undefined);
 
+    useEffect(() => {
+      const url = 'http://localhost:5021/User';
+      console.log('UserList render');
+      fetchData(url)
+        .then(data => {
+          console.log(data);
+          setUsers(data);
+        })
+        .catch(error => {
+          console.error('Error fetching roles:', error);
+        });
+    }, []);
+
+
     const details = (id:number) => {
-        const index = users.findIndex(x => x.Id === id);
+        const index = users.findIndex(x => x.id === id);
         const newUsers = [...users];
         newUsers[index] = {
             ...newUsers[index],
@@ -31,17 +44,17 @@ const UserList = () => {
 
     const handleCreateUser = () => {
         const newUser:CreateUserType = {
-            Name: '',
-            Surname: '',
-            Login: '',
-            Password: '',
-            Roles: [],
+            name: '',
+            surname: '',
+            login: '',
+            password: '',
+            rolesId: [],
          }
          setUserToCreate(newUser);
     };
 
     const handleSave = (user: UserType) => {
-      const index = users.findIndex(u => u.Id === user.Id);
+      const index = users.findIndex(u => u.id === user.id);
       if (index !== -1) {
         const newUsers = [...users];
         newUsers[index] = user;
@@ -56,16 +69,24 @@ const UserList = () => {
     };
 
     const handleDeleteUser = (id: number) =>{
-        const index = users.findIndex(u => u.Id === id);
+        const index = users.findIndex(u => u.id === id);
+        const url = 'http://localhost:5021/User/' + id;
+        deleteData(url)
+          .then(responseData => {
+            const deletedUsers = responseData;
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
         const newUsers = [...users];
-        const deletedUsers = newUsers.splice(index, 1);
+        newUsers.splice(index, 1);
         setUsers(newUsers);
     }
 
     const usersList = users.map(u => (
-      <UserItem user={u} details={details} edit={handleEditUser} delete={handleDeleteUser}/>
+      <UserItem key = {u.id} user={u} details={details} edit={handleEditUser} delete={handleDeleteUser}/>
     ));
-  
+
     return (
       <div>
         <h1>Users</h1>

@@ -1,31 +1,31 @@
 export type RoleType = {
-    Id: number;
-    Nazwa: string;
-    Description: string;
+    id: number;
+    nazwa: string;
+    description: string;
 }
 
 export type UserType = {
-    Id: number;
-    Login: string;
-    Name: string;
-    Surname: string;
-    Roles: RoleType[];
+    id: number;
+    login: string;
+    name: string;
+    surname: string;
+    roles: RoleType[];
     ShowDetails: Boolean;
 }
 
 export type CreateUserType = {
-    Login: string;
-    Name: string;
-    Surname: string;
-    Password: string;
-    Roles: RoleType[];
+    login: string;
+    name: string;
+    surname: string;
+    password: string;
+    rolesId: number[];
 }
 
 export type UpdateUserType = {
-    Id: number;
-    Login: string;
-    Name: string;
-    Surname: string;
-    Password: string;
-    Roles: RoleType[];
+    id: number;
+    login: string;
+    name: string;
+    surname: string;
+    password: string;
+    rolesId: number[];
 }

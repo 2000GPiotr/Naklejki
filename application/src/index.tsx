@@ -5,13 +5,16 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 // import ToDoList from './ToDo/ToDoList';
 import UserList from './UserManagementScreen/UserList';
+import { RoleProvider } from './UserManagementScreen/RoleContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
     <React.StrictMode>
+      <RoleProvider>
         <UserList />
+      </RoleProvider>
   </React.StrictMode>
 );
 

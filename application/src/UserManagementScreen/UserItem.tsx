@@ -1,6 +1,5 @@
 import React from "react"
 import { UpdateUserType, UserType } from "./UserTypes";
-import UserOverview from "./UserOverview";
 import './UserManagementScreen.css'
 
 type PropsType = {
@@ -12,22 +11,36 @@ type PropsType = {
 
 const UserItem = (props: PropsType) => {
     const {user} = props;
+    
     const updateUser: UpdateUserType = {
-        Id: user.Id,
-        Login: user.Login,
-        Name: user.Name,
-        Surname: user.Surname,
-        Password: '',
-        Roles: user.Roles,
+        id: user.id,
+        login: user.login,
+        name: user.name,
+        surname: user.surname,
+        password: '',
+        rolesId: user.roles.map(r => r.id),
     }
 
-    const toggleDetails = () => props.details(props.user.Id)
+    const toggleDetails = () => props.details(props.user.id)
     const editUser = () => props.edit(updateUser);
-    const deleteUser = () => props.delete(props.user.Id);
+    const deleteUser = () => props.delete(props.user.id);
+
+    const printArray = (array: any[]) => array.join(", ");
 
     return(
         <div className="userCard">
-            <UserOverview user={props.user} details={props.details}></UserOverview>           
+            {/* <UserOverview user={props.user} details={props.details}></UserOverview>            */}
+            <div>
+                <h2>{props.user.name} {props.user.surname}</h2>
+                {props.user.ShowDetails ? (
+                <div>
+                    <div>{props.user.id}</div>
+                    <div>{props.user.login}</div>
+                    <div>{printArray(props.user.roles.map(r => r.nazwa))}</div>
+                </div>
+                ) : null}
+            </div>
+            
             <button onClick={toggleDetails}>Details</button>
             <button onClick={editUser}>Edit</button>
             <button onClick={deleteUser}>Delete</button>

@@ -57,6 +57,7 @@ namespace Services.Services
             var user = await _dbContext
                 .Users
                 .Include(u => u.Roles)
+                .Include(u => u.Password)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
@@ -115,6 +116,7 @@ namespace Services.Services
             var user = await _dbContext
                 .Users
                 .Include(u => u.Roles)
+                .Include(u => u.Password)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
@@ -124,6 +126,9 @@ namespace Services.Services
             user.Name = userDto.Name;
             user.Surname = userDto.Surname;
             user.Roles = new List<Roles>();
+
+            if (userDto.Password != "")
+                user.Password.Hash = userDto.Password;
 
             foreach (var roleId in userDto.RolesId)
             {
