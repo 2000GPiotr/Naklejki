@@ -1,5 +1,5 @@
 import React, { ReactNode, createContext, useEffect, useState } from "react";
-import { fetchData } from "./Helpers";
+import { fetchData } from "../Helpers";
 import { RoleType } from "./UserTypes";
 
 export const RoleContext = createContext<RoleType[]>([]);

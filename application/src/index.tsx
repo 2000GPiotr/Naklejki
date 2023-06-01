@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 // import ToDoList from './ToDo/ToDoList';
 import UserList from './UserManagementScreen/UserList';
 import { RoleProvider } from './UserManagementScreen/RoleContext';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,7 +15,10 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
       <RoleProvider>
-        <UserList />
+        <BrowserRouter>
+          {/* <UserList /> */}
+          <App/>
+        </BrowserRouter>
       </RoleProvider>
   </React.StrictMode>
 );

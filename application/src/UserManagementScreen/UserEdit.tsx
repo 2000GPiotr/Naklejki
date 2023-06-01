@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { RoleType, UpdateUserType, UserType } from "./UserTypes";
 import './UserManagementScreen.css'
-import { putData } from "./Helpers";
+import { putData } from "../Helpers";
 import { RoleContext } from "./RoleContext";
 
 type PropsType = {

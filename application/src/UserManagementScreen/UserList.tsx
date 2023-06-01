@@ -3,7 +3,7 @@ import {CreateUserType, UpdateUserType, UserType} from './UserTypes'
 import UserItem from './UserItem'
 import UserEdit from "./UserEdit"
 import UserAdd from "./UserAdd"
-import { deleteData, fetchData } from "./Helpers"
+import { deleteData, fetchData } from "../Helpers"
 
 const UserList = () => {
     const [users, setUsers] = useState<UserType[]>([]);
