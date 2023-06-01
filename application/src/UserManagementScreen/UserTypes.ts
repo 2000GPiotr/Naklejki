@@ -13,19 +13,17 @@ export type UserType = {
     ShowDetails: Boolean;
 }
 
-export type CreateUserType = {
-    login: string;
-    name: string;
-    surname: string;
+export type CreateUserType = Omit<Partial<UserType>,
+'id' | 'ShowDetails' | 'roles'> 
+& {
     password: string;
     rolesId: number[];
-}
+};
 
-export type UpdateUserType = {
-    id: number;
-    login: string;
-    name: string;
-    surname: string;
+
+export type UpdateUserType = Omit<Partial<UserType>,
+'ShowDetails' | 'roles'> 
+& {
     password: string;
     rolesId: number[];
-}
+};
