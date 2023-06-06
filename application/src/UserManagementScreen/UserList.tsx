@@ -14,7 +14,11 @@ const UserList = () => {
     useEffect(() => {
       const url = 'http://localhost:5021/User';
       console.log('UserList render');
-      fetchData(url)
+
+      const controller = new AbortController();
+      const signal = controller.signal;
+
+      fetchData(url, signal)
         .then(data => {
           console.log(data);
           setUsers(data);
@@ -22,6 +26,7 @@ const UserList = () => {
         .catch(error => {
           console.error('Error fetching roles:', error);
         });
+        return () => {controller.abort()};
     }, []);
 
 
@@ -70,7 +75,8 @@ const UserList = () => {
         const url = 'http://localhost:5021/User/' + id;
         deleteData(url)
           .then(responseData => {
-            const deletedUsers = responseData;
+            const deletedUser = responseData;
+            console.log(deletedUser);
           })
           .catch(error => {
             console.error('Error:', error);

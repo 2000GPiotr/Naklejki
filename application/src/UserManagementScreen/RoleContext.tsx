@@ -8,15 +8,20 @@ export const RoleContext = createContext<RoleType[]>([]);
 export const RoleProvider = ({ children }: {children: ReactNode;}) => {
   const [roles, setRoles] = useState([]);
 
-  const fetchRoles = () => {
+  const fetchRoles = (signal: AbortSignal) => {
     const url = "http://localhost:5021/Role";
-    return fetchData(url);
+    return fetchData(url, signal);
   };
 
   useEffect(() => {
-    fetchRoles()
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetchRoles(signal)
       .then((data) => setRoles(data))
       .catch((error) => console.error("Error fetching roles:", error));
+      return () => {controller.abort()};
   }, []);
 
   return (

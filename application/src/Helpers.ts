@@ -1,4 +1,4 @@
-export const fetchData = async (url: string) => {
+export const fetchData = async (url: string, signal: AbortSignal) => {
   try {
     const response = await fetch(url);
 

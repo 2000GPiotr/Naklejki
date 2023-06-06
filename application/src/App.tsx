@@ -7,7 +7,6 @@ import MainScreen from './MainScreen';
 import UserList from './UserManagementScreen/UserList';
 import StickList from './StickManagementScreen/StickScreen';
 import RaportScreen from './RaportsScreen/RaportScreen';
-import LoginForm from './LoginScreen';
 import LoginScreen from './LoginScreen';
 
 function App() {
