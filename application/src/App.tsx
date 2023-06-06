@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './Navbar';
@@ -8,6 +7,8 @@ import UserList from './UserManagementScreen/UserList';
 import StickList from './StickManagementScreen/StickScreen';
 import RaportScreen from './RaportsScreen/RaportScreen';
 import LoginScreen from './LoginScreen';
+import UserAdd from './UserManagementScreen/UserAdd';
+import UserEdit from './UserManagementScreen/UserEdit';
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
       <Routes>
         <Route path="/" Component={MainScreen} />
         <Route path="/UserManagementScreen" Component={UserList} />
+        <Route path="/UserManagementScreen/Add" Component={UserAdd} />
+        <Route path="/UserManagementScreen/Edit" Component={UserEdit} />
         <Route path="/StickManagementScreen" Component={StickList} />
         <Route path="/RaportsScreen" Component={RaportScreen} />
         <Route path="/LoginScreen" Component={LoginScreen} />

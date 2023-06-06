@@ -3,19 +3,17 @@ import { CreateUserType, RoleType, UserType } from "./UserTypes";
 import './UserManagementScreen.css'
 import { postData } from "../Helpers";
 import { RoleContext } from "./RoleContext";
+import { useNavigate } from "react-router-dom";
 
-type PropsType = {
-    user: CreateUserType;
-    onSave: (user: UserType) => void;
-    onClose: () => void;
-};
 
-const UserAdd = (props: PropsType) => {
-    const [AddedUser, setAddedUser] = useState<CreateUserType>({ ...props.user });
+const UserAdd = () => {
+    const [addedUser, setAddedUser] = useState<CreateUserType>({ name: '', surname: '', login: '', password: '', rolesId: []})
     const roles = useContext(RoleContext);
   
+    const navigate = useNavigate();
+
     const handleSave = () => {
-      postData('http://localhost:5021/User', AddedUser)
+      postData('http://localhost:5021/User', addedUser)
         .then(responseData => {
           console.log('Response:', responseData);
           const {id, login, name, surname, roles} = responseData;
@@ -27,23 +25,22 @@ const UserAdd = (props: PropsType) => {
             roles: roles,
             ShowDetails: false
           };
-          props.onSave(user);
+          console.log(user);
         })
         .catch(error => {
           console.error('Error:', error);
-        });
-
-      props.onClose();
+        })
+        .finally(() => navigate("/UserManagementScreen"));
     };
   
     const handleCancel = () => {
-      props.onClose();
+      navigate("/UserManagementScreen")
     };
     
     const handleRoleChange = (role: RoleType, isChecked: boolean) => {
       console.log({role});
       console.log({isChecked});
-        const roles = [...AddedUser.rolesId];
+        const roles = [...addedUser.rolesId];
         if (isChecked) {
           roles.push(role.id);
         } else {
@@ -52,28 +49,28 @@ const UserAdd = (props: PropsType) => {
             roles.splice(index, 1);
           }
         }
-        setAddedUser({...AddedUser, rolesId: roles})
+        setAddedUser({...addedUser, rolesId: roles})
       };
   
     return (
-      <div className="modal">
-        <div className="modal-content">
+      <div className="">
+        <div className="">
           <h2>Add user</h2>
           <label>
             Name:
-            <input type="text" value={AddedUser.name} onChange={(e) => setAddedUser({ ...AddedUser, name: e.target.value })} />
+            <input type="text" value={addedUser.name} onChange={(e) => setAddedUser({ ...addedUser, name: e.target.value })} />
           </label>
           <label>
             Surname:
-            <input type="text" value={AddedUser.surname} onChange={(e) => setAddedUser({ ...AddedUser, surname: e.target.value })} />
+            <input type="text" value={addedUser.surname} onChange={(e) => setAddedUser({ ...addedUser, surname: e.target.value })} />
           </label>
           <label>
             Login:
-            <input type="text" value={AddedUser.login} onChange={(e) => setAddedUser({ ...AddedUser, login: e.target.value })} />
+            <input type="text" value={addedUser.login} onChange={(e) => setAddedUser({ ...addedUser, login: e.target.value })} />
           </label>
           <label>
             Password:
-            <input type="password" onChange={(e) => setAddedUser({ ...AddedUser, password: e.target.value })} />
+            <input type="password" onChange={(e) => setAddedUser({ ...addedUser, password: e.target.value })} />
           </label>
           <div>
           <p>Roles:</p>
@@ -82,7 +79,7 @@ const UserAdd = (props: PropsType) => {
             <div>{role.nazwa}</div>
               <input
                 type="checkbox"
-                checked={AddedUser.rolesId.includes(role.id)}
+                checked={addedUser.rolesId.includes(role.id)}
                 onChange={(e) => handleRoleChange(role, e.target.checked)}
               />
             </label>

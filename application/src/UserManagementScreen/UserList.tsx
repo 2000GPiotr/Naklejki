@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react"
-import {CreateUserType, UpdateUserType, UserType} from './UserTypes'
+import {UpdateUserType, UserType} from './UserTypes'
 import UserItem from './UserItem'
-import UserEdit from "./UserEdit"
-import UserAdd from "./UserAdd"
 import { deleteData, fetchData } from "../Helpers"
+import { useNavigate } from "react-router-dom"
 
 const UserList = () => {
     const [users, setUsers] = useState<UserType[]>([]);
+    
+    const navigate = useNavigate();
 
-    const [userToUpdate, setUserToUpdate] = useState<UpdateUserType | undefined>(undefined);
-    const [userToCreate, setUserToCreate] = useState<CreateUserType | undefined>(undefined);
 
     useEffect(() => {
       const url = 'http://localhost:5021/User';
@@ -41,33 +40,11 @@ const UserList = () => {
     };
 
     const handleEditUser = (user: UpdateUserType) => {
-      setUserToUpdate(user);
+      navigate("Edit", {state: {user}});
     };
 
     const handleCreateUser = () => {
-        const newUser:CreateUserType = {
-            name: '',
-            surname: '',
-            login: '',
-            password: '',
-            rolesId: [],
-         }
-         setUserToCreate(newUser);
-    };
-
-    const handleSave = (user: UserType) => {
-      const index = users.findIndex(u => u.id === user.id);
-      if (index !== -1) {
-        const newUsers = [...users];
-        newUsers[index] = user;
-        setUsers(newUsers);
-      }
-      else{
-        const newUsers = [...users, user];
-        setUsers(newUsers);
-      }
-      setUserToCreate(undefined);
-      setUserToUpdate(undefined);
+        navigate("Add");
     };
 
     const handleDeleteUser = (id: number) =>{
@@ -95,12 +72,6 @@ const UserList = () => {
         <h1>Users</h1>
         <button onClick={() => handleCreateUser()}>Add new user</button>
         {usersList}
-        {userToUpdate && (
-        <UserEdit user={userToUpdate} onSave={handleSave} onClose={() => setUserToUpdate(undefined)} />
-        )}
-        {userToCreate && (
-        <UserAdd user={userToCreate} onSave={handleSave} onClose={() => setUserToCreate(undefined)} />
-        )}
       </div>
     );
   }
