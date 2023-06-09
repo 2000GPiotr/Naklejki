@@ -7,8 +7,8 @@ const LoginScreen = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = {username:{username}, password: {password}};
-    postData('http://localhost:5021/Login', data)
+    const loginDto = {login: username, password: password};
+    postData('http://localhost:5021/Login', loginDto)
         .then(responseData => {
             console.log(responseData);
         })

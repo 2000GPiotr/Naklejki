@@ -7,7 +7,9 @@ using Services.DataTransferModels.User;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +20,7 @@ namespace Services.Services
         private readonly LabelDbContext _dbContext;
         private readonly IRolesService _rolesService;
         private readonly IMapper _mapper;
+        
         public UserService(LabelDbContext dbContext, IRolesService rolesService, IMapper mapper)
         {
             _dbContext = dbContext;
@@ -25,9 +28,28 @@ namespace Services.Services
             _mapper = mapper;
         }
 
+        public static Password CreatePassword(string plainPassword)
+        {
+            var password = new Password();
+
+            using(var hmac = new HMACSHA512())
+            {
+                password.Salt = hmac.Key;
+                password.Hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(plainPassword));
+                password.Round = 1;
+                //foreach(var b in password.Salt)
+                //    Debug.WriteLine(b);
+                //foreach(var b in hmac.Key)
+                //    Debug.WriteLine(b);
+            }
+            return password;
+        }
+
         public async Task<UserDto> CreateUser(CreateUserDto userDto)
         {
+            var password = CreatePassword(userDto.Password);
             var newUser = _mapper.Map<User>(userDto);
+            //newUser.Password = password;
 
             var roles = new List<Roles>();
 
@@ -68,6 +90,7 @@ namespace Services.Services
             }
 
             _dbContext.Users.Remove(user);
+            _dbContext.Passwords.Remove(user.Password);
             await _dbContext.SaveChangesAsync();
 
             return toReturn;
@@ -98,8 +121,15 @@ namespace Services.Services
 
             user = _mapper.Map(userDto, user);
 
-            if (userDto.Password != "")
-                user.Password.Hash = userDto.Password;
+            if(!String.IsNullOrEmpty(userDto.Password))
+            {
+                var newPassword = CreatePassword(userDto.Password);
+                user.Password.Salt = newPassword.Salt;
+                user.Password.Hash = newPassword.Hash;
+                user.Password.Round = newPassword.Round;
+
+                //   user.Password = CreatePassword(userDto.Password);
+            }
 
             user.Roles.Clear();
             foreach (var roleId in userDto.RolesId)

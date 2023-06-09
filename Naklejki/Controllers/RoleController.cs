@@ -21,5 +21,12 @@ namespace API.Controllers
             var roles = await _roleService.GetAllRoles();
             return Ok(roles);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<RoleDto>>> GetRoleById(int id)
+        {
+            var role = await _roleService.GetRolesById(id);
+            return Ok(role);
+        }
     }
 }

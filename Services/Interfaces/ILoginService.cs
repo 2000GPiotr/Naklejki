@@ -10,6 +10,6 @@ namespace Services.Interfaces
 {
     public interface ILoginService
     {
-        Task<UserDto> Login(LoginDto loginDto);
+        Task<string> Login(LoginDto loginDto);
     }
 }

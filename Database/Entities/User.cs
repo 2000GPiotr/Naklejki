@@ -15,9 +15,6 @@ namespace Database.Entities
         public string Name { get; set; }
         public string Surname { get; set; }
         public int PasswordId { get; set; }
-        //public int Round { get; set; }
-        //public string Salt { get; set; }
-        //public string Hash { get; set; }
 
         // Relations
 

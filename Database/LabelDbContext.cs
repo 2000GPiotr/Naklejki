@@ -29,6 +29,9 @@ namespace Database
 
             modelBuilder.Entity<User>(eb =>
             {
+                eb.HasIndex(u => u.Login)
+                .IsUnique();
+
                 eb.HasOne(u => u.Password)
                 .WithOne(p => p.User)
                 .HasForeignKey<User>(p => p.PasswordId);
@@ -79,6 +82,18 @@ namespace Database
                 eb.HasMany(s => s.Registries)
                 .WithOne(r => r.LabelStatus)
                 .HasForeignKey(r => r.LabelStatusId);
+            });
+
+            modelBuilder.Entity<Password>(eb =>
+            {
+                eb.Property(u => u.Salt)
+                .HasColumnType("bytea");
+            });
+
+            modelBuilder.Entity<Password>(eb =>
+            {
+                eb.Property(u => u.Hash)
+                .HasColumnType("bytea");
             });
         }
     }

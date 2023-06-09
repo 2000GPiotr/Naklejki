@@ -13,7 +13,10 @@ namespace API
                 .ForMember(dest => dest.Login, opt => opt.MapFrom(src => src.Login))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Surname))
-                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => new Password { Hash = src.Password, Round = 0, Salt = "" }));
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => Services.Services.UserService.CreatePassword(src.Password)));
+
+            CreateMap<Password, User>() //Raczej do usunięcia chyba ze da sie mapowac z wielu zrodel
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src));
 
             CreateMap<User, UserDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
@@ -31,8 +34,7 @@ namespace API
                 .ForMember(dest => dest.Login, opt => opt.MapFrom(src => src.Login))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Surname))
-                .ForMember(dest => dest.Password, opt => opt.MapFrom((src, dest) =>
-                    string.IsNullOrEmpty(src.Password) ? dest.Password : new Password { Round = 0, Salt ="", Hash = src.Password }));
+                .ForMember(dest => dest.Password, opt => opt.MapFrom((src, dest) => dest.Password));
         }
     }
 

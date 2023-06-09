@@ -16,13 +16,22 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserDto>> Login([FromBody] LoginDto loginDto)
+        public async Task<ActionResult<string>> Login([FromBody] LoginDto loginDto)
         {
-            var user = await _loginService.Login(loginDto);
-            if(user == null)
+            String token;
+            try
+            {
+                token = await _loginService.Login(loginDto);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
+            if (token == null)
                 return NotFound();
 
-            return Ok(user);
+            return Ok(token);
         }
     }
 }
