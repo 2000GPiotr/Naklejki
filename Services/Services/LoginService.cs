@@ -2,6 +2,7 @@
 using Database;
 using Database.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Services.DataTransferModels.Login;
 using Services.DataTransferModels.User;
@@ -22,27 +23,31 @@ namespace Services.Services
     {
         private readonly LabelDbContext _dbContext;
         private readonly IMapper _mapper;
-        public LoginService(LabelDbContext labelDbContext, IMapper mapper)
+        private readonly IConfiguration _configuration;
+
+        public LoginService(LabelDbContext labelDbContext, IMapper mapper, IConfiguration configuration)
         {
             _dbContext =  labelDbContext;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
-        private async Task<string> CreateJWT(UserDto user)
+        private string CreateJWT(UserDto user)
         {
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey###123@@@superSecretKey###123@@@"));
-            var credentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-            var claims = new Claim[]
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                _configuration.GetSection("AppSettings:TokenKey").Value));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Name)
+                new Claim(ClaimTypes.Name, user.Login)
                 // Role itp.
             };
 
             var token = new JwtSecurityToken(
-            "http://localhost:5021", // Twój emisariusz (issuer) - zmień na swój emisariusz
-            "http://localhost:3000", // Twój odbiorca (audience) - zmień na swój odbiorca
-            claims,
+            //"http://localhost:5021", // Twój emisariusz (issuer) - zmień na swój emisariusz
+            //"http://localhost:3000", // Twój odbiorca (audience) - zmień na swój odbiorca
+            claims: claims,
             expires: DateTime.UtcNow.AddMinutes(60), // Czas wygaśnięcia tokenu
             signingCredentials: credentials
             );
@@ -68,9 +73,8 @@ namespace Services.Services
                 throw new Exception("Wrong password");
             }
 
-            return "Super Secret Token";
-            //var token = await CreateJWT(_mapper.Map<UserDto>(user));
-            //return token;
+            var token = CreateJWT(_mapper.Map<UserDto>(user));
+            return token;
         }
 
         private bool CheckPassword(Password userPassword, string givenPassword)
@@ -78,10 +82,6 @@ namespace Services.Services
             using(var hmac = new HMACSHA512(userPassword.Salt))
             {
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(givenPassword));
-                //foreach (var b in userPassword.Salt)
-                //    Debug.WriteLine(b);
-                //foreach (var b in hmac.Key)
-                //    Debug.WriteLine(b);
                 return computedHash.SequenceEqual(userPassword.Hash);                
             }
         }

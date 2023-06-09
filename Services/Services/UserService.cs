@@ -37,10 +37,6 @@ namespace Services.Services
                 password.Salt = hmac.Key;
                 password.Hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(plainPassword));
                 password.Round = 1;
-                //foreach(var b in password.Salt)
-                //    Debug.WriteLine(b);
-                //foreach(var b in hmac.Key)
-                //    Debug.WriteLine(b);
             }
             return password;
         }
