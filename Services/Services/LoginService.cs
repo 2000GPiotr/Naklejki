@@ -34,22 +34,25 @@ namespace Services.Services
 
         private string CreateJWT(UserDto user)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:TokenKey").Value));
+            var tokenKey = _configuration.GetSection("AppSettings:TokenKey").Value;
+
+            if (string.IsNullOrEmpty(tokenKey))
+                throw new Exception("Token key not found");
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Login)
-                // Role itp.
             };
 
-            var token = new JwtSecurityToken(
-            //"http://localhost:5021", // Twój emisariusz (issuer) - zmień na swój emisariusz
-            //"http://localhost:3000", // Twój odbiorca (audience) - zmień na swój odbiorca
-            claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(60), // Czas wygaśnięcia tokenu
-            signingCredentials: credentials
+            user.Roles.ForEach(role => claims.Add(new Claim(ClaimTypes.Role, role.Nazwa)));
+
+            var token = new JwtSecurityToken(            
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(60), // Czas wygaśnięcia tokenu
+                signingCredentials: credentials
             );
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);

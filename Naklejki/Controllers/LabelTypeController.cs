@@ -1,4 +1,5 @@
 ﻿using Database.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.DataTransferModels.LabelType;
 using Services.Interfaces;
@@ -15,7 +16,7 @@ namespace API.Controllers
             _labelTypeService = labelTypeService;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<List<LabelTypeDto>>> GetAllLabelTypes()
         {
             var labels = await _labelTypeService.GetAllLabelTypes();
