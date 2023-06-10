@@ -2,6 +2,7 @@
 using Database;
 using Database.Entities;
 using Microsoft.EntityFrameworkCore;
+using Repository.Interfaces;
 using Services.DataTransferModels.Roles;
 using Services.DataTransferModels.User;
 using Services.Interfaces;
@@ -17,15 +18,27 @@ namespace Services.Services
 {
     public class UserService : IUserService
     {
-        private readonly LabelDbContext _dbContext;
-        private readonly IRolesService _rolesService;
         private readonly IMapper _mapper;
-        
-        public UserService(LabelDbContext dbContext, IRolesService rolesService, IMapper mapper)
+        private readonly IUserRepository _userRepository;
+        private readonly IRoleRepository _roleRepository;
+        public UserService(
+            IMapper mapper, 
+            IUserRepository userRepository, 
+            IRoleRepository roleRepository)
         {
-            _dbContext = dbContext;
-            _rolesService = rolesService;
             _mapper = mapper;
+            _userRepository = userRepository;
+            _roleRepository = roleRepository;
+        }
+
+        private static void UpdatePassword(Password password, string plainPassword)
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                password.Salt = hmac.Key;
+                password.Hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(plainPassword));
+                password.Round = 1;
+            }
         }
 
         public static Password CreatePassword(string plainPassword)
@@ -43,61 +56,39 @@ namespace Services.Services
 
         public async Task<UserDto> CreateUser(CreateUserDto userDto)
         {
-            var password = CreatePassword(userDto.Password);
             var newUser = _mapper.Map<User>(userDto);
-            //newUser.Password = password;
 
             var roles = new List<Roles>();
 
             foreach(var id in userDto.RolesId)
             {
-                var role = await _rolesService
-                    .GetRolesById(id);
+                var role = await _roleRepository.GetRoleById(id);
                 roles.Add(role);
             }
 
             newUser.Roles = roles;
 
-            await _dbContext.AddAsync(newUser);
-            await _dbContext.SaveChangesAsync();
+            await _userRepository.AddUser(newUser);
 
             var toReturn =_mapper.Map<UserDto>(newUser);
-            toReturn.Roles = _mapper.Map<List<RoleDto>>(roles);
 
             return toReturn;
         }
 
         public async Task<UserDto> DeleteUser(int id)
         {
-            var user = await _dbContext
-                .Users
-                .Include(u => u.Roles)
-                .Include(u => u.Password)
-                .FirstOrDefaultAsync(u => u.Id == id);
-
-            if (user == null)
-                throw new Exception();
+            var user = await _userRepository.GetUserById(id);
 
             var toReturn = _mapper.Map<UserDto>(user);
-            foreach (var role in user.Roles)
-            {
-                var newRoleDto = new RoleDto() { Id = role.Id, Nazwa = role.Nazwa, Description = role.Description };
-                toReturn.Roles.Add(newRoleDto);
-            }
 
-            _dbContext.Users.Remove(user);
-            _dbContext.Passwords.Remove(user.Password);
-            await _dbContext.SaveChangesAsync();
+            await _userRepository.DeleteUser(id);
 
             return toReturn;
         }
 
-        public async Task<IEnumerable<UserDto>> GetAllUsers()
+        public async Task<List<UserDto>> GetAllUsers()
         {
-            var users = await _dbContext
-                .Users
-                .Include(u => u.Roles)
-                .ToListAsync();
+            var users = await _userRepository.GetAllUsers();
 
             var toReturn = _mapper.Map<List<UserDto>>(users);
 
@@ -106,11 +97,7 @@ namespace Services.Services
 
         public async Task<UserDto> UpdateUser(UpdateUserDto userDto, int id)
         {
-            var user = await _dbContext
-                .Users
-                .Include(u => u.Roles)
-                .Include(u => u.Password)
-                .FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _userRepository.GetUserById(id);
 
             if (user == null)
                 throw new Exception();
@@ -118,23 +105,16 @@ namespace Services.Services
             user = _mapper.Map(userDto, user);
 
             if(!String.IsNullOrEmpty(userDto.Password))
-            {
-                var newPassword = CreatePassword(userDto.Password);
-                user.Password.Salt = newPassword.Salt;
-                user.Password.Hash = newPassword.Hash;
-                user.Password.Round = newPassword.Round;
-
-                //   user.Password = CreatePassword(userDto.Password);
-            }
+                UpdatePassword(user.Password, userDto.Password);
 
             user.Roles.Clear();
             foreach (var roleId in userDto.RolesId)
             {
-                var role = await _rolesService.GetRolesById(roleId);
+                var role = await _roleRepository.GetRoleById(roleId);
                 user.Roles.Add(role);
             }
 
-            await _dbContext.SaveChangesAsync();
+            await _userRepository.UpdateUser(user);
 
             var toReturn = _mapper.Map<UserDto>(user);
 

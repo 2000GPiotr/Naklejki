@@ -13,7 +13,8 @@ namespace API
                 .ForMember(dest => dest.Login, opt => opt.MapFrom(src => src.Login))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Surname))
-                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => Services.Services.UserService.CreatePassword(src.Password)));
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => 
+                    Services.Services.UserService.CreatePassword(src.Password)));
 
             CreateMap<Password, User>() //Raczej do usunięcia chyba ze da sie mapowac z wielu zrodel
                 .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src));

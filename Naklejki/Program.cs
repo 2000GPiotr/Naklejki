@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Repository.Interfaces;
+using Repository.Repositories;
 using Services.Interfaces;
 using Services.Services;
 using Swashbuckle.AspNetCore.Filters;
@@ -29,6 +31,9 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<LabelDbContext>(
     option => option.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionString"))
     );
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 
 builder.Services.AddScoped<ILabelTypeService, LabelTypeService>();
 builder.Services.AddScoped<IUserService, UserService>();
