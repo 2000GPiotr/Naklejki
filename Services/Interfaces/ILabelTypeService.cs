@@ -10,10 +10,10 @@ namespace Services.Interfaces
 {
     public interface ILabelTypeService
     {
-        Task<IEnumerable<LabelTypeDto>> GetAllLabelTypes();
+        Task<List<LabelTypeDto>> GetAllLabelTypes();
         Task<LabelTypeDto> GetLabelTypeBySymbol(string symbol);
-        Task<LabelType> CreateLabelType(LabelTypeDto labelTypeDto);
-        Task<LabelType> UpdateLabelTypeBySymbol(string symbol, UpdateLabelTypeDto labelTypeDto);
+        Task<LabelTypeDto> CreateLabelType(LabelTypeDto labelTypeDto);
+        Task<LabelTypeDto> UpdateLabelTypeBySymbol(string symbol, UpdateLabelTypeDto labelTypeDto);
         Task<LabelTypeDto> DeleteLabelTypeBySymbol(string symbol);
     }
 }

@@ -16,39 +16,74 @@ namespace API.Controllers
             _labelTypeService = labelTypeService;
         }
 
-        [HttpGet, Authorize(Roles = "Admin, User")]
+        [HttpGet/*, Authorize(Roles = "Admin, User")*/]
         public async Task<ActionResult<List<LabelTypeDto>>> GetAllLabelTypes()
         {
-            var labels = await _labelTypeService.GetAllLabelTypes();
-            return Ok(labels);
+            try
+            {
+                var labels = await _labelTypeService.GetAllLabelTypes();
+                return Ok(labels);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet("{symbol}")]
         public async Task<ActionResult<LabelTypeDto>> GetLabelTypeBySymbol([FromRoute]string symbol)
         {
-            var labelType = await _labelTypeService.GetLabelTypeBySymbol(symbol);
-            return Ok(labelType);
+            try
+            {
+                var labelType = await _labelTypeService.GetLabelTypeBySymbol(symbol);
+                return Ok(labelType);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
-        public async Task<ActionResult<LabelType>> CreateLabelType([FromBody]LabelTypeDto labelTypeDto)
+        public async Task<ActionResult<LabelTypeDto>> CreateLabelType([FromBody]LabelTypeDto labelTypeDto)
         {
-            var label = await _labelTypeService.CreateLabelType(labelTypeDto);
-            return Ok(label);
+            try
+            {
+                var label = await _labelTypeService.CreateLabelType(labelTypeDto);
+                return Ok(label);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpDelete("{symbol}")]
         public async Task<ActionResult<LabelTypeDto>> DeleteLabelTypeBySymbol(string symbol)
         {
-            var label = await _labelTypeService.DeleteLabelTypeBySymbol(symbol);
-            return Ok(label);
+            try
+            {
+                var label = await _labelTypeService.DeleteLabelTypeBySymbol(symbol);
+                return Ok(label);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPut("{symbol}")]
-        public async Task<ActionResult<LabelType>> UpdateLabelTypeBySymbol([FromRoute]string symbol, [FromBody]UpdateLabelTypeDto labelTypeDto)
+        public async Task<ActionResult<LabelTypeDto>> UpdateLabelTypeBySymbol([FromRoute]string symbol, [FromBody]UpdateLabelTypeDto labelTypeDto)
         {
-            var label = await _labelTypeService.UpdateLabelTypeBySymbol(symbol, labelTypeDto);
-            return Ok(label);
+            try
+            {
+                var label = await _labelTypeService.UpdateLabelTypeBySymbol(symbol, labelTypeDto);
+                return Ok(label);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

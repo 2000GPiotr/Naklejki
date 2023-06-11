@@ -1,6 +1,8 @@
-﻿using Database;
+﻿using AutoMapper;
+using Database;
 using Database.Entities;
 using Microsoft.EntityFrameworkCore;
+using Repository.Interfaces;
 using Services.DataTransferModels.LabelType;
 using Services.Interfaces;
 using System;
@@ -13,76 +15,71 @@ namespace Services.Services
 {
     public class LabelTypeService : ILabelTypeService
     {
-        private readonly LabelDbContext _dbContext;
-        public LabelTypeService(LabelDbContext bdContext)
+        private readonly ILabelTypeRepository _labelTypeRepository;
+        private readonly IMapper _mapper;
+        public LabelTypeService(ILabelTypeRepository labelTypeRepository, IMapper mapper)
         {
-            _dbContext = bdContext;
+            _labelTypeRepository = labelTypeRepository;
+            _mapper = mapper;
         }
 
-        public async Task<LabelType> CreateLabelType(LabelTypeDto labelTypeDto)
+        public async Task<LabelTypeDto> CreateLabelType(LabelTypeDto labelTypeDto)
         {
-            var newLabelType = new LabelType() { Symbol = labelTypeDto.Symbol, Count = labelTypeDto.Count, Description = labelTypeDto.Description };
+            var newLabelType = _mapper.Map<LabelType>(labelTypeDto);
 
-            await _dbContext.AddAsync(newLabelType);
-            await _dbContext.SaveChangesAsync();
+            await _labelTypeRepository.AddLabelType(newLabelType);
 
-            return newLabelType;
+            var toReturn = _mapper.Map<LabelTypeDto>(newLabelType);
+            return toReturn;
         }
 
-        public async Task<IEnumerable<LabelTypeDto>> GetAllLabelTypes()
+        public async Task<List<LabelTypeDto>> GetAllLabelTypes()
         {
-            var labels = await _dbContext
-                .LabelTypes
-                .ToListAsync();
+            var labels = await _labelTypeRepository.GetAllLabelTypes();
 
-            var toReturn = new List<LabelTypeDto>();
-
-            foreach(var labelType in labels)
-            {
-                toReturn.Add(new LabelTypeDto() { Count = labelType.Count, Symbol = labelType.Symbol, Description = labelType.Description });
-            }
+            var toReturn = _mapper.Map<List<LabelTypeDto>>(labels);
             return toReturn;
         }
 
         public async Task<LabelTypeDto> DeleteLabelTypeBySymbol(string symbol)
         {
-            var labelType = await _dbContext
-                .LabelTypes
-                .FirstOrDefaultAsync(x => x.Symbol == symbol);
+            var labelType = await _labelTypeRepository.GetLabelTypeBySymbol(symbol);
 
             if (labelType == null)
                 throw new Exception(String.Format("No LabelType with symbol: {0}", symbol)); // TODO
 
-            var toReturn = new LabelTypeDto() { Count = labelType.Count, Symbol = labelType.Symbol, Description = labelType.Description };
+            var toReturn = _mapper.Map<LabelTypeDto>(labelType);
 
-            _dbContext.LabelTypes.Remove(labelType);
-            await _dbContext.SaveChangesAsync();
-
+            await _labelTypeRepository.DeleteLabelTypeBySymbol(symbol);
             return toReturn;
+            
         }
 
         public async Task<LabelTypeDto> GetLabelTypeBySymbol(string symbol)
         {
-            var labelType = await _dbContext
-                .LabelTypes
-                .FirstOrDefaultAsync(x => x.Symbol == symbol);
+            var labelType = await _labelTypeRepository.GetLabelTypeBySymbol(symbol);
 
-            var toReturn = new LabelTypeDto() { Count = labelType.Count, Symbol = labelType.Symbol, Description = labelType.Description };
+            if (labelType == null)
+                throw new Exception("Wrong labelType Symbol");
 
+            var toReturn = _mapper.Map<LabelTypeDto>(labelType);
             return toReturn;
         }
 
-        public async Task<LabelType> UpdateLabelTypeBySymbol(string symbol, UpdateLabelTypeDto labelTypeDto)
+        public async Task<LabelTypeDto> UpdateLabelTypeBySymbol(string symbol, UpdateLabelTypeDto labelTypeDto)
         {
-            var labelType = await _dbContext
-                .LabelTypes
-                .FirstOrDefaultAsync(x => x.Symbol == symbol);
- 
-            labelType.Count = labelTypeDto.Count;
-            labelType.Description = labelTypeDto.Description;
+            var labelType = await _labelTypeRepository.GetLabelTypeBySymbol(symbol);
 
-            await _dbContext.SaveChangesAsync();
-            return labelType;
+            if (labelType == null)
+                throw new Exception("Wrong LabelType Symbol");
+
+            labelType.Description = labelTypeDto.Description;
+            labelType.Count = labelTypeDto.Count;
+
+            await _labelTypeRepository.UpdateLabelType(labelType);
+
+            var toReturn = _mapper.Map<LabelTypeDto>(labelType);
+            return toReturn;
         }
     }
 }
