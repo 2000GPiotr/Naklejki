@@ -1,6 +1,7 @@
 ﻿using Database;
 using Database.Entities;
 using Microsoft.EntityFrameworkCore;
+using Repository.Interfaces;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,26 +13,21 @@ namespace Services.Services
 {
     public class RoleService : IRolesService
     {
-        private readonly LabelDbContext _dbContext;
-        public RoleService(LabelDbContext dbContext)
+        private readonly IRoleRepository _roleRepository;
+        public RoleService( IRoleRepository roleRepository)
         {
-            _dbContext = dbContext;
+            _roleRepository = roleRepository;
         }
 
-        public async Task<IEnumerable<Roles>> GetAllRoles()
+        public async Task<List<Roles>> GetAllRoles()
         {
-            var roles = await _dbContext
-                .Roles
-                .ToListAsync();
+            var roles = await _roleRepository.GetAllRoles();
             return roles;
         }
 
         public async Task<Roles> GetRolesById(int id)
         {
-            var role = await _dbContext
-                .Roles
-                .FirstOrDefaultAsync(r => r.Id == id);
-            
+            var role = await _roleRepository.GetRoleById(id);
             return role;
         }
     }

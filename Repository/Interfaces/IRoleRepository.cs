@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.Interfaces
+namespace Repository.Interfaces
 {
-    public interface IRolesService
+    public interface IRoleRepository
     {
         Task<List<Roles>> GetAllRoles();
-        Task<Roles> GetRolesById(int id);
+        Task<Roles?> GetRoleById(int id);
     }
 }
