@@ -63,6 +63,10 @@ namespace Services.Services
             foreach(var id in userDto.RolesId)
             {
                 var role = await _roleRepository.GetRoleById(id);
+
+                if (role == null)
+                    throw new Exception("Wrong Role Id");
+
                 roles.Add(role);
             }
 
@@ -78,6 +82,9 @@ namespace Services.Services
         public async Task<UserDto> DeleteUser(int id)
         {
             var user = await _userRepository.GetUserById(id);
+
+            if (user == null)
+                throw new Exception("Wrong User Id");
 
             var toReturn = _mapper.Map<UserDto>(user);
 
@@ -111,6 +118,10 @@ namespace Services.Services
             foreach (var roleId in userDto.RolesId)
             {
                 var role = await _roleRepository.GetRoleById(roleId);
+
+                if (role == null)
+                    throw new Exception("Wrong Role Id");
+
                 user.Roles.Add(role);
             }
 

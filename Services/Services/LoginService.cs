@@ -51,7 +51,7 @@ namespace Services.Services
 
             var token = new JwtSecurityToken(            
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(60), // Czas wygaśnięcia tokenu
+                expires: DateTime.UtcNow.AddMinutes(60),
                 signingCredentials: credentials
             );
 
@@ -80,7 +80,7 @@ namespace Services.Services
             return token;
         }
 
-        private bool CheckPassword(Password userPassword, string givenPassword)
+        private static bool CheckPassword(Password userPassword, string givenPassword)
         {
             using(var hmac = new HMACSHA512(userPassword.Salt))
             {

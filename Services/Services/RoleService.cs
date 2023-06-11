@@ -28,6 +28,10 @@ namespace Services.Services
         public async Task<Roles> GetRolesById(int id)
         {
             var role = await _roleRepository.GetRoleById(id);
+
+            if (role == null)
+                throw new Exception("Wrong Role Id");
+
             return role;
         }
     }

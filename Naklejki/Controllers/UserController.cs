@@ -18,29 +18,58 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<UserDto>> CreateUser([FromBody] CreateUserDto userDto)
         {
-            var newUser = await _userService.CreateUser(userDto);
+            try
+            {
+                var newUser = await _userService.CreateUser(userDto);
             return Ok(newUser);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<UserDto>> DeleteUser([FromRoute]int id)
         {
-            var deletedUser = await _userService.DeleteUser(id);
-            return Ok(deletedUser);
+            try
+            {
+                var deletedUser = await _userService.DeleteUser(id);
+                return Ok(deletedUser);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
         {
-            var toReturn = await _userService.GetAllUsers();
-            return Ok(toReturn);
+            try
+            {
+                var toReturn = await _userService.GetAllUsers();
+                return Ok(toReturn);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<UserDto>> UpdateUser([FromBody] UpdateUserDto userDto, [FromRoute] int id)
         {
-            var user = await _userService.UpdateUser(userDto, id);
-            return Ok(user);
+            try
+            {
+                var user = await _userService.UpdateUser(userDto, id);
+                return Ok(user);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }
