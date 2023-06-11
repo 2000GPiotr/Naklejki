@@ -8,7 +8,7 @@ namespace Services.DataTransferModels.LabelType
 {
     public class UpdateLabelTypeDto
     {
-        public string Description { get; set; }
+        public string Description { get; set; } = String.Empty;
         public int Count { get; set; }
     }
 }

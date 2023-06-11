@@ -63,6 +63,9 @@ namespace Repository.Repositories
         {
             var user = await _dbContext.Users.FindAsync(userId);
 
+            if (user == null)
+                throw new Exception("User not found");
+
             _dbContext.Users.Remove(user);
             _dbContext.Passwords.Remove(user.Password);
             await _dbContext.SaveChangesAsync();

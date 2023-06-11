@@ -109,7 +109,9 @@ namespace Services.Services
             if (user == null)
                 throw new Exception();
 
-            user = _mapper.Map(userDto, user);
+            user.Name = userDto.Name;
+            user.Surname = userDto.Surname;
+            user.Login = userDto.Login;
 
             if(!String.IsNullOrEmpty(userDto.Password))
                 UpdatePassword(user.Password, userDto.Password);
@@ -124,7 +126,7 @@ namespace Services.Services
 
                 user.Roles.Add(role);
             }
-
+            user.Id = id;
             await _userRepository.UpdateUser(user);
 
             var toReturn = _mapper.Map<UserDto>(user);
