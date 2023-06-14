@@ -107,11 +107,9 @@ namespace Services.Services
             var user = await _userRepository.GetUserById(id);
 
             if (user == null)
-                throw new Exception();
+                throw new Exception("Wrong user id");
 
-            user.Name = userDto.Name;
-            user.Surname = userDto.Surname;
-            user.Login = userDto.Login;
+            _mapper.Map(userDto, user);
 
             if(!String.IsNullOrEmpty(userDto.Password))
                 UpdatePassword(user.Password, userDto.Password);

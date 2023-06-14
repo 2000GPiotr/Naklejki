@@ -73,8 +73,7 @@ namespace Services.Services
             if (labelType == null)
                 throw new Exception("Wrong LabelType Symbol");
 
-            labelType.Description = labelTypeDto.Description;
-            labelType.Count = labelTypeDto.Count;
+            _mapper.Map(labelTypeDto, labelType);
 
             await _labelTypeRepository.UpdateLabelType(labelType);
 

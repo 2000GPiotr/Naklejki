@@ -16,6 +16,12 @@ namespace API.MappingProfiles
                 .ForMember(dest => dest.Password, opt => opt.MapFrom(src =>
                     Services.Services.UserService.CreatePassword(src.Password)));
 
+            CreateMap<UpdateUserDto, User>()
+                .ForMember(dest => dest.Login, opt => opt.MapFrom(src => src.Login))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Surname))
+                .ForMember(dest => dest.Password, opt => opt.Ignore());
+
             CreateMap<User, UserDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Login, opt => opt.MapFrom(src => src.Login))

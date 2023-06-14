@@ -17,6 +17,11 @@ namespace API.MappingProfiles
                 .ForMember(dest => dest.Symbol, opt => opt.MapFrom(src => src.Symbol))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Count, opt => opt.MapFrom(src => src.Count));
+
+            CreateMap<UpdateLabelTypeDto, LabelType>()
+                .ForMember(dest => dest.Symbol, opt => opt.Ignore())
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.Count, opt => opt.MapFrom(src => src.Count));
         }
     }
 }
