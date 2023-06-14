@@ -9,7 +9,31 @@ const UserList = () => {
     
     const navigate = useNavigate();
 
+    useEffect(() => {
+      const controller = new AbortController();
+      
+      var init = async () => 
+      {
+        const url = 'http://localhost:5021/User';
+        console.log('UserList render');
 
+        const signal = controller.signal;
+
+        try {
+          var data = await fetchData(url, signal);
+          console.log(data);
+          setUsers(data);
+        }
+        catch (error) {
+          console.error('Error fetching roles:', error);
+        }
+      }
+      init();
+      
+      return () => {controller.abort()};
+    }, []);
+
+    /*
     useEffect(() => {
       const url = 'http://localhost:5021/User';
       console.log('UserList render');
@@ -27,7 +51,7 @@ const UserList = () => {
         });
         return () => {controller.abort()};
     }, []);
-
+    */
 
     const details = (id:number) => {
         const index = users.findIndex(x => x.id === id);
