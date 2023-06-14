@@ -55,8 +55,8 @@ const UserEdit = () => {
     };
 
   return (
-    <div className="modal">
-      <div className="modal-content">
+    <div >
+      <div>
         <h2>Edit user</h2>
         <label>
           Name:
