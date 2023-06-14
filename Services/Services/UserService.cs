@@ -31,29 +31,6 @@ namespace Services.Services
             _roleRepository = roleRepository;
         }
 
-        private static void UpdatePassword(Password password, string plainPassword)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                password.Salt = hmac.Key;
-                password.Hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(plainPassword));
-                password.Round = 1;
-            }
-        }
-
-        public static Password CreatePassword(string plainPassword)
-        {
-            var password = new Password();
-
-            using(var hmac = new HMACSHA512())
-            {
-                password.Salt = hmac.Key;
-                password.Hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(plainPassword));
-                password.Round = 1;
-            }
-            return password;
-        }
-
         public async Task<UserDto> CreateUser(CreateUserDto userDto)
         {
             var newUser = _mapper.Map<User>(userDto);
@@ -112,7 +89,7 @@ namespace Services.Services
             _mapper.Map(userDto, user);
 
             if(!String.IsNullOrEmpty(userDto.Password))
-                UpdatePassword(user.Password, userDto.Password);
+                PasswordHelper.UpdatePassword(user.Password, userDto.Password);
 
             user.Roles.Clear();
             foreach (var roleId in userDto.RolesId)
