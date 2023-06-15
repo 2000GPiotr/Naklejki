@@ -52,7 +52,6 @@ namespace Services.Services
 
             await _labelTypeRepository.DeleteLabelTypeBySymbol(symbol);
             return toReturn;
-            
         }
 
         public async Task<LabelTypeDto> GetLabelTypeBySymbol(string symbol)
