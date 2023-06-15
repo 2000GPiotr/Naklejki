@@ -18,6 +18,7 @@ namespace Repository.Repositories
         {
             _dbContext = dbContext;
         }
+        
         public async Task AddLabelType(LabelType labelType)
         {
             await _dbContext.LabelTypes.AddAsync(labelType);
