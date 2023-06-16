@@ -65,7 +65,7 @@ namespace Services.Services
 
             var toReturn = _mapper.Map<UserDto>(user);
 
-            await _userRepository.DeleteUser(id);
+            await _userRepository.DeleteUser(user);
 
             return toReturn;
         }

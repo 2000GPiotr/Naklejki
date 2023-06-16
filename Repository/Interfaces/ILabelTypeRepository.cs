@@ -13,6 +13,6 @@ namespace Repository.Interfaces
         Task<LabelType?> GetLabelTypeBySymbol(string symbol);
         Task AddLabelType(LabelType labelType);
         Task UpdateLabelType(LabelType labelType);
-        Task DeleteLabelTypeBySymbol(string symbol);
+        Task DeleteLabelType(LabelType labelType);
     }
 }

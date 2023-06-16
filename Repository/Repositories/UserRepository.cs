@@ -59,13 +59,8 @@ namespace Repository.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteUser(int userId)
+        public async Task DeleteUser(User user)
         {
-            var user = await _dbContext.Users.FindAsync(userId);
-
-            if (user == null)
-                throw new Exception("User not found");
-
             _dbContext.Users.Remove(user);
             _dbContext.Passwords.Remove(user.Password);
             await _dbContext.SaveChangesAsync();

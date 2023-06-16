@@ -25,18 +25,10 @@ namespace Repository.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteLabelTypeBySymbol(string symbol)
+        public async Task DeleteLabelType(LabelType labelType)
         {
-            var labelType = await _dbContext
-                .LabelTypes
-                .FirstOrDefaultAsync(l => l.Symbol == symbol);
-
-            if (labelType == null)
-                throw new Exception("LabelType not found");
-
             _dbContext.LabelTypes.Remove(labelType);
             await _dbContext.SaveChangesAsync();
-
         }
 
         public async Task<List<LabelType>> GetAllLabelTypes()

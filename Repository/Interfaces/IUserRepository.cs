@@ -14,7 +14,7 @@ namespace Repository.Interfaces
         Task<List<User>> GetAllUsers();
         Task AddUser(User user);
         Task UpdateUser(User user);
-        Task DeleteUser(int userId);
+        Task DeleteUser(User user);
     }
 
 }

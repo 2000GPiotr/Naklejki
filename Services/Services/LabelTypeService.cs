@@ -50,7 +50,7 @@ namespace Services.Services
 
             var toReturn = _mapper.Map<LabelTypeDto>(labelType);
 
-            await _labelTypeRepository.DeleteLabelTypeBySymbol(symbol);
+            await _labelTypeRepository.DeleteLabelType(labelType);
             return toReturn;
         }
 
