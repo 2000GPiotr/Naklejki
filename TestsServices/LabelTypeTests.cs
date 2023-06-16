@@ -135,13 +135,14 @@ namespace TestsServices
         public async Task DeleteTest_MainPath()
         {
             // Arrange
-            string symbol = "S1";
+            var symbol = "S1";
+            var labelType = new LabelType { Symbol = "S1", Description = "Desc 1", Count = 1410 };
             var expectedLabelTypeDto = new LabelTypeDto { Symbol = "S1", Description = "Desc 1", Count = 1410 };
 
             var labelTypeRepositoryMock = new Mock<ILabelTypeRepository>();
             labelTypeRepositoryMock.Setup(repo => repo.GetLabelTypeBySymbol(symbol))
-                .ReturnsAsync(new LabelType());
-            labelTypeRepositoryMock.Setup(repo => repo.DeleteLabelTypeBySymbol(symbol))
+                .ReturnsAsync(labelType);
+            labelTypeRepositoryMock.Setup(repo => repo.DeleteLabelType(labelType))
                 .Verifiable();
 
             var mapperMock = new Mock<IMapper>();
@@ -155,7 +156,7 @@ namespace TestsServices
 
             // Assert
             labelTypeRepositoryMock.Verify(repo => repo.GetLabelTypeBySymbol(symbol), Times.Once);
-            labelTypeRepositoryMock.Verify(repo => repo.DeleteLabelTypeBySymbol(symbol), Times.Once);
+            labelTypeRepositoryMock.Verify(repo => repo.DeleteLabelType(labelType), Times.Once);
             mapperMock.Verify(mapper => mapper.Map<LabelTypeDto>(It.IsAny<LabelType>()), Times.Once);
 
             Assert.Equal(expectedLabelTypeDto, result);
@@ -182,7 +183,7 @@ namespace TestsServices
             await Assert.ThrowsAsync<Exception>(act);
 
             labelTypeRepositoryMock.Verify(repo => repo.GetLabelTypeBySymbol(symbol), Times.Once);
-            labelTypeRepositoryMock.Verify(repo => repo.DeleteLabelTypeBySymbol(symbol), Times.Never);
+            labelTypeRepositoryMock.Verify(repo => repo.DeleteLabelType(It.IsAny<LabelType>()), Times.Never);
             mapperMock.Verify(mapper => mapper.Map<LabelTypeDto>(It.IsAny<LabelType>()), Times.Never);
         }
 
