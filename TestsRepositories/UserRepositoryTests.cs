@@ -122,7 +122,7 @@ namespace TestsRepositories
         [Fact]
         public async Task GetAllUsersTest()
         {
-            var _dbContext = new LabelDbContext(CreateOptions(nameof(GetAllUsersTest)));
+            using var _dbContext = new LabelDbContext(CreateOptions(nameof(GetAllUsersTest)));
 
             // Arrange
             var userRepository = new UserRepository(_dbContext);
@@ -160,7 +160,7 @@ namespace TestsRepositories
         [Fact]
         public async Task AddUserTest_MainPath()
         {
-            var _dbContext = new LabelDbContext(CreateOptions(nameof(AddUserTest_MainPath)));
+            using var _dbContext = new LabelDbContext(CreateOptions(nameof(AddUserTest_MainPath)));
 
             // Arrange
             var userRepository = new UserRepository(_dbContext);
@@ -193,7 +193,7 @@ namespace TestsRepositories
         [Fact]
         public async Task UpdateUserTest()
         {
-            var _dbContext = new LabelDbContext(CreateOptions(nameof(UpdateUserTest)));
+            using var _dbContext = new LabelDbContext(CreateOptions(nameof(UpdateUserTest)));
 
             // Arrange
             var userRepository = new UserRepository(_dbContext);
@@ -217,7 +217,7 @@ namespace TestsRepositories
 
             // Assert
             var updatedUser = await _dbContext
-                .Users.FirstOrDefaultAsync();
+                .Users.FirstOrDefaultAsync(u => u.Id == user.Id);
 
             Assert.NotNull(updatedUser);
             Assert.Equal(user.Id, updatedUser.Id);
@@ -229,7 +229,7 @@ namespace TestsRepositories
         [Fact]
         public async Task DeleteUserTest()
         {
-            var _dbContext = new LabelDbContext(CreateOptions(nameof(UpdateUserTest)));
+            using var _dbContext = new LabelDbContext(CreateOptions(nameof(DeleteUserTest)));
 
             // Arrange
             var userRepository = new UserRepository(_dbContext);
@@ -251,7 +251,9 @@ namespace TestsRepositories
             await userRepository.DeleteUser(user);
 
             // Assert
-            Assert.Empty(_dbContext.Users);
+            var result = await _dbContext
+                .Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+            Assert.Null(result);
         }
     }
 }
