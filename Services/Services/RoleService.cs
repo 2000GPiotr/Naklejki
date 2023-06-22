@@ -1,7 +1,9 @@
-﻿using Database;
+﻿using AutoMapper;
+using Database;
 using Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
+using Services.DataTransferModels.Roles;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,25 +16,29 @@ namespace Services.Services
     public class RoleService : IRolesService
     {
         private readonly IRoleRepository _roleRepository;
-        public RoleService( IRoleRepository roleRepository)
+        private readonly IMapper _mapper;
+        public RoleService( IRoleRepository roleRepository, IMapper mapper)
         {
             _roleRepository = roleRepository;
+            _mapper = mapper;
         }
 
-        public async Task<List<Roles>> GetAllRoles()
+        public async Task<List<RoleDto>> GetAllRoles()
         {
             var roles = await _roleRepository.GetAllRoles();
-            return roles;
+            var toReturn = _mapper.Map<List<RoleDto>>(roles);
+            return toReturn;
         }
 
-        public async Task<Roles> GetRolesById(int id)
+        public async Task<RoleDto> GetRolesById(int id)
         {
             var role = await _roleRepository.GetRoleById(id);
 
             if (role == null)
                 throw new Exception("Wrong Role Id");
 
-            return role;
+            var toReturn = _mapper.Map<RoleDto>(role);
+            return toReturn;
         }
     }
 }
