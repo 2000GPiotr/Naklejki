@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace TestsRepositories
 {
-    public class LabelTypeTestsNew
+    public class LabelTypeTests
     {
         DbContextOptions<LabelDbContext> CreateOptions(string dbName)
         {
