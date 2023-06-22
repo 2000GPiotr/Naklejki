@@ -20,11 +20,6 @@ namespace TestsRepositories
                 .Options;
         }
 
-        private readonly DbContextOptions<LabelDbContext> options = new DbContextOptionsBuilder<LabelDbContext>()
-                .UseInMemoryDatabase("TestDatabase")
-                .Options;
-
-
         [Fact]
         public async Task AddTest()
         {
