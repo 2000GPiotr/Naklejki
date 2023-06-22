@@ -73,7 +73,7 @@ namespace TestsServices
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(expectedLabelTypeDtos, result);
+            Assert.Equal(expectedLabelTypeDtos, result); //słąbsze sprawdzenie
             labelTypeRepositoryMock.Verify(repo => repo.GetAllLabelTypes(), Times.Once);
             mapperMock.Verify(mapper => mapper.Map<List<LabelTypeDto>>(labelTypes), Times.Once);
         }
