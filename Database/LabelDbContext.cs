@@ -15,6 +15,7 @@ namespace Database
         public DbSet<DocumentHeader> DocumentHeaders { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<Roles> Roles { get; set; }
+        public DbSet<LabelStatus> LabelStatus { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

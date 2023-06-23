@@ -35,11 +35,13 @@ builder.Services.AddDbContext<LabelDbContext>(
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ILabelTypeRepository, LabelTypeRepository>();
+builder.Services.AddScoped<ILabelStatusRepository, LabelStatusRepository>();
 
 builder.Services.AddScoped<ILabelTypeService, LabelTypeService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRolesService, RoleService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<ILabelStatusService, LabelStatusService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

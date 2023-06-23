@@ -18,15 +18,15 @@ namespace TestsServices
         {
             // Arrange
             var roles = new List<Roles>
-        {
-            new Roles { Id = 1, Nazwa = "Role1", Description = "Description1" },
-            new Roles { Id = 2, Nazwa = "Role2", Description = "Description2" }
-        };
+            {
+                new Roles { Id = 1, Nazwa = "Role1", Description = "Description1" },
+                new Roles { Id = 2, Nazwa = "Role2", Description = "Description2" }
+            };
             var roleDtos = new List<RoleDto>
-        {
-            new RoleDto { Id = 1, Nazwa = "Role1", Description = "Description1" },
-            new RoleDto { Id = 2, Nazwa = "Role2", Description = "Description2" }
-        };
+            {
+                new RoleDto { Id = 1, Nazwa = "Role1", Description = "Description1" },
+                new RoleDto { Id = 2, Nazwa = "Role2", Description = "Description2" }
+            };
 
             var roleRepositoryMock = new Mock<IRoleRepository>();
             roleRepositoryMock.Setup(repository => repository.GetAllRoles())
@@ -57,11 +57,11 @@ namespace TestsServices
 
             var roleRepositoryMock = new Mock<IRoleRepository>();
             roleRepositoryMock.Setup(repository => repository.GetRoleById(roleId))
-                              .ReturnsAsync(role);
+                .ReturnsAsync(role);
 
             var mapperMock = new Mock<IMapper>();
             mapperMock.Setup(mapper => mapper.Map<RoleDto>(role))
-                      .Returns(roleDto);
+                .Returns(roleDto);
 
             var roleService = new RoleService(roleRepositoryMock.Object, mapperMock.Object);
 
@@ -79,20 +79,22 @@ namespace TestsServices
         {
             // Arrange
             int roleId = 1;
-            Roles role = null;
 
             var roleRepositoryMock = new Mock<IRoleRepository>();
             roleRepositoryMock.Setup(repository => repository.GetRoleById(roleId))
-                              .ReturnsAsync(role);
+                .ReturnsAsync((Roles)null);
 
             var mapperMock = new Mock<IMapper>();
 
             var roleService = new RoleService(roleRepositoryMock.Object, mapperMock.Object);
 
-            // Act & Assert
-            await Assert.ThrowsAsync<Exception>(async () => await roleService.GetRolesById(roleId));
+            // Act
+            var act = async () => await roleService.GetRolesById(roleId);
+
+            // Assert
+            await Assert.ThrowsAsync<Exception>(act);
             roleRepositoryMock.Verify(repository => repository.GetRoleById(roleId), Times.Once);
-            mapperMock.VerifyNoOtherCalls();
+            mapperMock.Verify(mapper => mapper.Map<RoleDto>(It.IsAny<Roles>()), Times.Never);
         }
     }
 }
