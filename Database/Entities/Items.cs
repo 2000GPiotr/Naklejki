@@ -12,7 +12,9 @@ namespace Database.Entities
         [Key]
         public int Id { get; set; }
         public int Lp { get; set; }
+        public string LabelNumberPrefix { get; set; }
         public string LabelNumber { get; set; }
+        public string LabelNumberSufix { get; set; }
         public int DocumentHeaderId { get; set; }
         public string LabelTypeId { get; set; }
 

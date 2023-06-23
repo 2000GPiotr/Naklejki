@@ -27,8 +27,8 @@ namespace TestsRepositories
             // Arrange
             var _rolesRepository = new RoleRepository(_dbContext);
 
-            var role1 = new Roles { Id = 1, Nazwa = "Role1", Description = "Description1" };
-            var role2 = new Roles { Id = 2, Nazwa = "Role2", Description = "Description2" };
+            var role1 = new Roles { Id = 1, Name = "Role1", Description = "Description1" };
+            var role2 = new Roles { Id = 2, Name = "Role2", Description = "Description2" };
             await _dbContext.Roles.AddRangeAsync(role1, role2);
             await _dbContext.SaveChangesAsync();
 
@@ -49,7 +49,7 @@ namespace TestsRepositories
             // Arrange
             var _roleRepository = new RoleRepository(_dbContext);
 
-            var role = new Roles { Id = 1, Nazwa = "Role1", Description = "Description1" };
+            var role = new Roles { Id = 1, Name = "Role1", Description = "Description1" };
             await _dbContext.Roles.AddAsync(role);
             await _dbContext.SaveChangesAsync();
 
@@ -59,7 +59,7 @@ namespace TestsRepositories
             // Assert
             Assert.NotNull(result);
             Assert.Equal(role.Id, result.Id);
-            Assert.Equal(role.Nazwa, result.Nazwa);
+            Assert.Equal(role.Name, result.Name);
             Assert.Equal(role.Description, result.Description);
         }
 

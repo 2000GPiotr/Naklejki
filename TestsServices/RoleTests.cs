@@ -19,13 +19,13 @@ namespace TestsServices
             // Arrange
             var roles = new List<Roles>
             {
-                new Roles { Id = 1, Nazwa = "Role1", Description = "Description1" },
-                new Roles { Id = 2, Nazwa = "Role2", Description = "Description2" }
+                new Roles { Id = 1, Name = "Role1", Description = "Description1" },
+                new Roles { Id = 2, Name = "Role2", Description = "Description2" }
             };
             var roleDtos = new List<RoleDto>
             {
-                new RoleDto { Id = 1, Nazwa = "Role1", Description = "Description1" },
-                new RoleDto { Id = 2, Nazwa = "Role2", Description = "Description2" }
+                new RoleDto { Id = 1, Name = "Role1", Description = "Description1" },
+                new RoleDto { Id = 2, Name = "Role2", Description = "Description2" }
             };
 
             var roleRepositoryMock = new Mock<IRoleRepository>();
@@ -52,8 +52,8 @@ namespace TestsServices
         {
             // Arrange
             int roleId = 1;
-            var role = new Roles { Id = roleId, Nazwa = "Role1", Description = "Description1" };
-            var roleDto = new RoleDto { Id = roleId, Nazwa = "Role1", Description = "Description1" };
+            var role = new Roles { Id = roleId, Name = "Role1", Description = "Description1" };
+            var roleDto = new RoleDto { Id = roleId, Name = "Role1", Description = "Description1" };
 
             var roleRepositoryMock = new Mock<IRoleRepository>();
             roleRepositoryMock.Setup(repository => repository.GetRoleById(roleId))

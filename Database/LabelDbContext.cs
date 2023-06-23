@@ -25,7 +25,7 @@ namespace Database
 
                     eb.HasMany(r => r.Items)
                     .WithOne(i => i.Registry)
-                    .HasForeignKey(i => new { i.LabelTypeId, i.LabelNumber });
+                    .HasForeignKey(i => new { i.LabelTypeId, i.LabelNumberPrefix, i.LabelNumber, i.LabelNumberSufix });
                 });
 
             modelBuilder.Entity<User>(eb =>

@@ -48,8 +48,8 @@ namespace TestsServices
 
             var roles = new List<Roles>
             {
-                new Roles { Id = 1, Nazwa = "Role1", Description = "Description1" },
-                new Roles { Id = 2, Nazwa = "Role2", Description = "Description2" }
+                new Roles { Id = 1, Name = "Role1", Description = "Description1" },
+                new Roles { Id = 2, Name = "Role2", Description = "Description2" }
             };
 
             var userDtoResult = new UserDto
@@ -60,8 +60,8 @@ namespace TestsServices
                 Surname = "Kowalski",
                 Roles = new List<RoleDto>
                 {
-                    new RoleDto { Id = 1, Nazwa = "Role1", Description = "Description1" },
-                    new RoleDto { Id = 2, Nazwa = "Role2", Description = "Description2" }
+                    new RoleDto { Id = 1, Name = "Role1", Description = "Description1" },
+                    new RoleDto { Id = 2, Name = "Role2", Description = "Description2" }
                 }
             };
 
@@ -218,13 +218,13 @@ namespace TestsServices
                 Name = "John",
                 Surname = "Kowalski",
                 Password = new Password { Id = 1, Round = 1, Salt = new byte[] { 1, 2, 3 }, Hash = new byte[] { 4, 5, 6 } },
-                Roles = new List<Roles> { new Roles { Id = 3, Nazwa = "Role3", Description = "Description3" } }
+                Roles = new List<Roles> { new Roles { Id = 3, Name = "Role3", Description = "Description3" } }
             };
 
             var roles = new List<Roles>
             {
-                new Roles { Id = 1, Nazwa = "Role1", Description = "Description1" },
-                new Roles { Id = 2, Nazwa = "Role2", Description = "Description2" }
+                new Roles { Id = 1, Name = "Role1", Description = "Description1" },
+                new Roles { Id = 2, Name = "Role2", Description = "Description2" }
             };
 
             var updatedUserDtoResult = new UserDto
@@ -235,8 +235,8 @@ namespace TestsServices
                 Surname = "Kowalski",
                 Roles = new List<RoleDto>
                 {
-                    new RoleDto { Id = 1, Nazwa = "Role1", Description = "Description1" },
-                    new RoleDto { Id = 2, Nazwa = "Role2", Description = "Description2" }
+                    new RoleDto { Id = 1, Name = "Role1", Description = "Description1" },
+                    new RoleDto { Id = 2, Name = "Role2", Description = "Description2" }
                 }
             };
 
@@ -306,7 +306,7 @@ namespace TestsServices
                 Name = "John",
                 Surname = "Kowalski",
                 Password = new Password { Id = 1, Round = 1, Salt = new byte[] { 1, 2, 3 }, Hash = new byte[] { 4, 5, 6 } },
-                Roles = new List<Roles> { new Roles { Id = 3, Nazwa = "Role3", Description = "Description3" } }
+                Roles = new List<Roles> { new Roles { Id = 3, Name = "Role3", Description = "Description3" } }
             };
 
             _userRepositoryMock.Setup(repo => repo.GetUserById(userId))
