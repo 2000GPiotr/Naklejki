@@ -21,7 +21,7 @@ namespace Database
         {
             modelBuilder.Entity<Registry>(eb =>
                 {
-                    eb.HasKey(x => new { x.LabelTypeId, x.LabelNumber });
+                    eb.HasKey(x => new { x.LabelTypeId, x.LabelNumberPrefix, x.LabelNumber, x.LabelNumberSufix });
 
                     eb.HasMany(r => r.Items)
                     .WithOne(i => i.Registry)
