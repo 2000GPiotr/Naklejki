@@ -78,7 +78,7 @@ const UserEdit = () => {
         <p>Roles:</p>
         {roles.map((role) => (
           <label className="checkboxInput" key={role.id}>
-          <div>{role.nazwa}</div>
+          <div>{role.name}</div>
             <input
               type="checkbox"
               checked={editedUser.rolesId.includes(role.id)}

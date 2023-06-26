@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './Navbar';
 import MainScreen from './MainScreen';
 import UserList from './UserManagementScreen/UserList';
-import StickList from './StickManagementScreen/StickScreen';
+import LabelList from './LabelManagementScreen/LabelScreen';
 import RaportScreen from './RaportsScreen/RaportScreen';
 import LoginScreen from './LoginScreen';
 import UserAdd from './UserManagementScreen/UserAdd';
@@ -20,7 +20,7 @@ function App() {
         <Route path="/UserManagementScreen" Component={UserList} />
         <Route path="/UserManagementScreen/Add" Component={UserAdd} />
         <Route path="/UserManagementScreen/Edit" Component={UserEdit} />
-        <Route path="/StickManagementScreen" Component={StickList} />
+        <Route path="/LabelManagementScreen" Component={LabelList} />
         <Route path="/RaportsScreen" Component={RaportScreen} />
         <Route path="/LoginScreen" Component={LoginScreen} />
       </Routes>

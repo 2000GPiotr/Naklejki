@@ -1,6 +1,6 @@
 export type RoleType = {
     id: number;
-    nazwa: string;
+    name: string;
     description: string;
 }
 
@@ -12,6 +12,12 @@ export type UserType = {
     roles: RoleType[];
     ShowDetails: Boolean;
 }
+
+export type UserBaseType = Omit<Partial<UserType>,
+'roles' | 'ShowDetails' | 'login'>
+
+export type BaseUserType = Omit<Partial<UserType>,
+'roles' | 'ShowDetails' | 'login'>
 
 export type CreateUserType = Omit<Partial<UserType>,
 'id' | 'ShowDetails' | 'roles'> 

@@ -35,7 +35,7 @@ const UserItem = (props: PropsType) => {
                 <div>
                     <div>{props.user.id}</div>
                     <div>{props.user.login}</div>
-                    <div>{printArray(props.user.roles.map(r => r.nazwa))}</div>
+                    <div>{printArray(props.user.roles.map(r => r.name))}</div>
                 </div>
                 ) : null}
             </div>

@@ -76,7 +76,7 @@ const UserAdd = () => {
           <p>Roles:</p>
           {roles.map((role) => (
             <label className="checkboxInput" key={role.id}>
-            <div>{role.nazwa}</div>
+            <div>{role.name}</div>
               <input
                 type="checkbox"
                 checked={addedUser.rolesId.includes(role.id)}

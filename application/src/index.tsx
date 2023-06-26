@@ -8,6 +8,9 @@ import UserList from './UserManagementScreen/UserList';
 import { RoleProvider } from './UserManagementScreen/RoleContext';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import { LabelTypeProvider } from './LabelManagementScreen/LabelTypeContext';
+import { UserProvider } from './LabelManagementScreen/UserContext';
+import { DocumentTypeProvider } from './LabelManagementScreen/DocumentTypeContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,10 +18,16 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
       <RoleProvider>
-        <BrowserRouter>
-          {/* <UserList /> */}
-          <App/>
-        </BrowserRouter>
+        <LabelTypeProvider>
+          <DocumentTypeProvider>
+            <UserProvider>
+              <BrowserRouter>
+              {/* <UserList /> */}
+                <App/>
+              </BrowserRouter>
+            </UserProvider>
+          </DocumentTypeProvider>
+        </LabelTypeProvider>
       </RoleProvider>
   </React.StrictMode>
 );
