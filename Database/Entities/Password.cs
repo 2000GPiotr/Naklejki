@@ -14,6 +14,7 @@ namespace Database.Entities
         public int Round { get; set; }
         public byte[] Salt { get; set; }
         public byte[] Hash { get; set; }
+        public int UserId { get; set; }
 
         //Relations
         public User User { get; set; }

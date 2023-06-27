@@ -11,7 +11,7 @@ namespace Database
         public DbSet<Password> Passwords { get; set; }
         public DbSet<Registry> Registry { get; set; }
         public DbSet<LabelType> LabelTypes { get; set; }
-        public DbSet<Items> Items { get; set; }
+        public DbSet<Item> Items { get; set; }
         public DbSet<DocumentHeader> DocumentHeaders { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<Roles> Roles { get; set; }
@@ -32,10 +32,6 @@ namespace Database
             {
                 eb.HasIndex(u => u.Login)
                 .IsUnique();
-
-                eb.HasOne(u => u.Password)
-                .WithOne(p => p.User)
-                .HasForeignKey<User>(p => p.PasswordId);
 
                 eb.HasMany(u => u.DocumentHeaders)
                 .WithOne(h => h.User)
@@ -89,12 +85,13 @@ namespace Database
             {
                 eb.Property(u => u.Salt)
                 .HasColumnType("bytea");
-            });
 
-            modelBuilder.Entity<Password>(eb =>
-            {
                 eb.Property(u => u.Hash)
                 .HasColumnType("bytea");
+
+                eb.HasOne(p => p.User)
+                .WithOne(u => u.Password)
+                .HasForeignKey<Password>(p => p.UserId);
             });
         }
     }
