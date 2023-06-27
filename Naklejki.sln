@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestsServices", "TestsServices\TestsServices.csproj", "{645A4EC9-881A-4E64-856E-CB665B60D488}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsRepositories", "TestsRepositories\TestsRepositories.csproj", "{9A1C44FE-6999-4AAE-95BA-1F638E362ECC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestsRepositories", "TestsRepositories\TestsRepositories.csproj", "{9A1C44FE-6999-4AAE-95BA-1F638E362ECC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seeder", "Seeder\Seeder.csproj", "{B336D2C1-54E9-4B03-8207-013ED0D9BB31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{9A1C44FE-6999-4AAE-95BA-1F638E362ECC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A1C44FE-6999-4AAE-95BA-1F638E362ECC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A1C44FE-6999-4AAE-95BA-1F638E362ECC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B336D2C1-54E9-4B03-8207-013ED0D9BB31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B336D2C1-54E9-4B03-8207-013ED0D9BB31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B336D2C1-54E9-4B03-8207-013ED0D9BB31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B336D2C1-54E9-4B03-8207-013ED0D9BB31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
