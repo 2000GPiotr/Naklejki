@@ -23,5 +23,10 @@ namespace Seeder
             dbContext.DocumentTypes.AddRange(types);
             dbContext.SaveChanges();
         }
+
+        public static List<DocumentType> CreateDocumentTypes()
+        {
+            return types;
+        }
     }
 }

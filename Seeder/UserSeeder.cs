@@ -45,5 +45,10 @@ namespace Seeder
             dbContext.Users.AddRange(users);
             dbContext.SaveChanges();
         }
+
+        public static List<User> CreateUsers()
+        {
+            return users;
+        }
     }
 }
