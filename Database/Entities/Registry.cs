@@ -19,7 +19,7 @@ namespace Database.Entities
         //Relations
         public LabelType LabelType { get; set; }
         public User User { get; set; }
-        public List<Items> Items { get; set; } = new List<Items>();
+        public List<Item> Items { get; set; } = new List<Item>();
         public LabelStatus LabelStatus { get; set; }
     }   
 }

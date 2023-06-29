@@ -17,7 +17,7 @@ namespace Database.Entities
         public int Count { get; set; }
 
         //Relations
-        public List<Items> Items { get; set; } = new List<Items>();
+        public List<Item> Items { get; set; } = new List<Item>();
         public List<Registry> Registries { get; set; } = new List<Registry>();
     }
 }

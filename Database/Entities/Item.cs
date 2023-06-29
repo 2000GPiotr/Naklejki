@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Database.Entities
 {
-    public class Items
+    public class Item
     {
         [Key]
         public int Id { get; set; }

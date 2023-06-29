@@ -10,12 +10,12 @@ namespace Database.Entities
         public int Number { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; } = string.Empty;
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public string DocumentTypeId { get; set; }
 
         //Relations 
-        public User User { get; set; }
+        public User? User { get; set; }
         public DocumentType DocumentType { get; set; }
-        public List<Items> Items { get; set; } = new List<Items>();
+        public List<Item> Items { get; set; } = new List<Item>();
     }
 }
