@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Database.Entities
 {
-    public class Registry
+    public class RegistryItem
     {
         public DateTime LabelEndTime { get; set; }
         public string LabelNumberPrefix { get; set; }

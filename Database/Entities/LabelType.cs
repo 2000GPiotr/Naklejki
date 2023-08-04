@@ -18,6 +18,6 @@ namespace Database.Entities
 
         //Relations
         public List<Item> Items { get; set; } = new List<Item>();
-        public List<Registry> Registries { get; set; } = new List<Registry>();
+        public List<RegistryItem> Registries { get; set; } = new List<RegistryItem>();
     }
 }

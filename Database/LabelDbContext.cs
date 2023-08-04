@@ -9,7 +9,7 @@ namespace Database
 
         public DbSet<User> Users { get; set; }
         public DbSet<Password> Passwords { get; set; }
-        public DbSet<Registry> Registry { get; set; }
+        public DbSet<RegistryItem> Registry { get; set; }
         public DbSet<LabelType> LabelTypes { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<DocumentHeader> DocumentHeaders { get; set; }
@@ -19,13 +19,13 @@ namespace Database
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Registry>(eb =>
+            modelBuilder.Entity<RegistryItem>(eb =>
                 {
                     eb.HasKey(x => new { x.LabelTypeId, x.LabelNumberPrefix, x.LabelNumber, x.LabelNumberSufix });
 
                     eb.HasMany(r => r.Items)
                     .WithOne(i => i.Registry)
-                    .HasForeignKey(i => new { i.LabelTypeId, i.LabelNumberPrefix, i.LabelNumber, i.LabelNumberSufix });
+                    .HasForeignKey(i => new { i.LabelTypeSymbol, i.LabelNumberPrefix, i.LabelNumber, i.LabelNumberSufix });
                 });
 
             modelBuilder.Entity<User>(eb =>
@@ -60,7 +60,7 @@ namespace Database
             {
                 eb.HasMany(t => t.Items)
                 .WithOne(i => i.LabelType)
-                .HasForeignKey(i => i.LabelTypeId);
+                .HasForeignKey(i => i.LabelTypeSymbol);
 
                 eb.HasMany(t => t.Registries)
                 .WithOne(r => r.LabelType)

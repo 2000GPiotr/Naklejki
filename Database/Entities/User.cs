@@ -19,7 +19,7 @@ namespace Database.Entities
 
         public Password Password { get; set; }
         public List<DocumentHeader> DocumentHeaders  { get; set; } = new List<DocumentHeader>();
-        public List<Registry> Registries { get; set; } = new List<Registry>();
+        public List<RegistryItem> Registries { get; set; } = new List<RegistryItem>();
         public List<Roles> Roles { get; set; } = new List<Roles>();
     }
 }

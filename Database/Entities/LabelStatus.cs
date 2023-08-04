@@ -16,7 +16,7 @@ namespace Database.Entities
         public string? Description { get; set; }
 
         // Relations
-        public List<Registry> Registries { get; set; } = new List<Registry>();
+        public List<RegistryItem> Registries { get; set; } = new List<RegistryItem>();
     }
 }
 

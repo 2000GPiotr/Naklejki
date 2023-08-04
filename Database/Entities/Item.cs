@@ -16,11 +16,11 @@ namespace Database.Entities
         public string LabelNumber { get; set; }
         public string LabelNumberSufix { get; set; }
         public int DocumentHeaderId { get; set; }
-        public string LabelTypeId { get; set; }
+        public string LabelTypeSymbol { get; set; }
 
         //Relations
         public DocumentHeader DocumentHeader { get; set; }
         public LabelType LabelType { get; set; }
-        public Registry Registry { get; set; }
+        public RegistryItem Registry { get; set; }
     }
 }
