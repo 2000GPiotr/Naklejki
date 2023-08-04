@@ -230,8 +230,8 @@ namespace TestsRepositories
             var count2 = headers.Where(h => h.User.Id == userId2).Count();
 
             // Act
-            var result1 = await documentHeaderRepository.GetDocumentByUserId(userId1);
-            var result2 = await documentHeaderRepository.GetDocumentByUserId(userId2);
+            var result1 = await documentHeaderRepository.GetDocumentsByUserId(userId1);
+            var result2 = await documentHeaderRepository.GetDocumentsByUserId(userId2);
 
             // Assert
             Assert.NotNull(result1);
@@ -312,8 +312,8 @@ namespace TestsRepositories
             var count2 = headers.Where(h => h.DocumentType.Symbol == typeId2).Count();
 
             // Act
-            var result1 = await documentHeaderRepository.GetDocumentByType(typeId1);
-            var result2 = await documentHeaderRepository.GetDocumentByType(typeId2);
+            var result1 = await documentHeaderRepository.GetDocumentsByType(typeId1);
+            var result2 = await documentHeaderRepository.GetDocumentsByType(typeId2);
 
             // Assert
             Assert.NotNull(result1);
