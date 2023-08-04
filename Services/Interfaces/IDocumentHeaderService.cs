@@ -11,10 +11,10 @@ namespace Services.Interfaces
     {
         Task<List<DocumentDto>> GetAllDocuments();
         Task<DocumentDto> AddDocument(AddDocumentDto documentDto);
-        Task<DocumentDto> GetDocument(int id);
-        Task<DocumentDto> UpdateDocument(UpdateDocumentDto documentDto, int id);
+        Task<DocumentDto> GetDocumentById(int id);
+        Task<DocumentDto> UpdateDocument(UpdateDocumentHeaderDto documentDto, int id);
         Task<DocumentDto> DeleteDocument(int id);
-        Task<List<DocumentDto>> GetDocumentByType(string symbo);
-        Task<List<DocumentDto>> GetDocumentByUserId(int id);
+        Task<List<DocumentDto>> GetDocumentsByType(string symbol);
+        Task<List<DocumentDto>> GetDocumentsByUserId(int id);
     }
 }

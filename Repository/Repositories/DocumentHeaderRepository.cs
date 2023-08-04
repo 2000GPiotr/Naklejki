@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repositories
 {
-    public class DocumentHeaderRepository : IDocumentRepository
+    public class DocumentHeaderRepository : IDocumentHeaderRepository
     {
         private readonly LabelDbContext _dbContext;
         public DocumentHeaderRepository(LabelDbContext dbContext)
@@ -49,7 +49,7 @@ namespace Repository.Repositories
                 .FirstOrDefaultAsync(h => h.Id == id);
         }
 
-        public async Task<List<DocumentHeader>> GetDocumentByType(string symbol)
+        public async Task<List<DocumentHeader>> GetDocumentsByType(string symbol)
         {
             return await _dbContext
                 .DocumentHeaders
@@ -60,7 +60,7 @@ namespace Repository.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<DocumentHeader>> GetDocumentByUserId(int userId)
+        public async Task<List<DocumentHeader>> GetDocumentsByUserId(int userId)
         {
             return await _dbContext
                 .DocumentHeaders
