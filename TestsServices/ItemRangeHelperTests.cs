@@ -74,9 +74,8 @@ namespace TestsServices
         public void ConvertListItemRangesToItemListTest_Base()
         {
             // Arrange
-            var itemRanges = new List<ItemRangeDto>();
-
-            itemRanges.Add(
+            var itemRanges = new List<ItemRangeDto>()
+            {
                 new ItemRangeDto()
                 {
                     FirstItem = new ItemDto()
@@ -94,9 +93,7 @@ namespace TestsServices
                         LabelNumberSuffix = ""
                     },
                     LabelTypeSymbol = "S2"
-                }
-            );
-            itemRanges.Add(
+                },
                 new ItemRangeDto()
                 {
                     FirstItem = new ItemDto()
@@ -115,7 +112,8 @@ namespace TestsServices
                     },
                     LabelTypeSymbol = "S3"
                 }
-            );
+            };  
+            
             var header = new DocumentHeader()
             {
                 Id = 1,
@@ -130,7 +128,6 @@ namespace TestsServices
                     Description = "efg"
                 },
             };
-
 
             // Act
             var items = ItemRangeHelper.ConvertListItemRangesToItemList(itemRanges, header);

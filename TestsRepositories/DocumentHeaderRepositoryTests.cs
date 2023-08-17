@@ -95,13 +95,6 @@ namespace TestsRepositories
             // Arrange
             var documentHeaderRepository = new DocumentHeaderRepository(_dbContext);
 
-            //var users = UserSeeder.CreateUsers();
-            //var types = DocumentTypeSeeder.CreateDocumentTypes();
-
-            //await _dbContext.Users.AddRangeAsync(users); // Tworzy 9 instancji DocumentHeader i wprowadza je do bazy danych
-            //await _dbContext.DocumentTypes.AddRangeAsync(types);
-            //await _dbContext.SaveChangesAsync();
-
             var user = new User { Name = "Admin", Surname = "Admin", Login = "admin" };
             var type = new DocumentType { Symbol = "Przyjecie", Description = "Przyjęcie na stan" };
 

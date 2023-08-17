@@ -23,12 +23,14 @@ namespace Services.Services
             IMapper mapper, 
             IDocumentHeaderRepository documentRepository,
             IUserRepository userRepository,
-            IItemRepository itemRepository)
+            IItemRepository itemRepository,
+            IDocumentTypeRepository documentTypeRepository)
         {
             _mapper = mapper;
             _documentHeaderRepository = documentRepository;
             _userRepository = userRepository;
             _itemRepository = itemRepository;
+            _documentTypeRepository = documentTypeRepository;
         }
 
         public async Task<DocumentDto> AddDocument(AddDocumentDto documentDto)
@@ -114,6 +116,9 @@ namespace Services.Services
         public async Task<DocumentDto> UpdateDocument(UpdateDocumentHeaderDto documentDto, int id)
         {
             var document = await _documentHeaderRepository.GetDocumentById(id);
+
+            if (document == null)
+                throw new Exception("Wrong Document Id");
 
             _mapper.Map(documentDto, document);
 
