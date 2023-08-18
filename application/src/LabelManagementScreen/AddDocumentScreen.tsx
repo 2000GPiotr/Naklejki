@@ -21,6 +21,7 @@ const DocumentScreen = () => {
     setItemsList(prevItemsList => {
       const updatedItemsList = [...prevItemsList];
       updatedItemsList[index] = itemRange;
+      console.log("xDDD");
       return updatedItemsList;
     });
   };
@@ -28,9 +29,10 @@ const DocumentScreen = () => {
   const handleAddItemRange = () => {
     setItemsList(prevItemsList => [...prevItemsList, 
         { 
-            id: v4(),
-            firstItem: {labelTypeSymbol:'', labelNumberPrefix: '', labelNumber: '', labelNumberSufix: ''}, 
-        lastItem: {labelTypeSymbol:'', labelNumberPrefix: '', labelNumber: '', labelNumberSufix: ''} }]);
+          id: v4(),
+          labelTypeSymbol: '',
+          firstItem: {labelNumberPrefix: '', labelNumber: '', labelNumberSufix: ''}, 
+          lastItem: {labelNumberPrefix: '', labelNumber: '', labelNumberSufix: ''} }]);
   };
 
   const handleRemoveItemRange = (itemId: string) => {

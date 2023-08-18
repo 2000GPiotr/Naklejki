@@ -11,7 +11,7 @@ const Navbar = () => {
           <Link to="/UserManagementScreen">Users</Link>
         </li>
         <li>
-          <Link to="/LabelManagementScreen">Label</Link>
+          <Link to="/LabelManagementScreen">Documents</Link>
         </li>
         <li>
           <Link to="/RaportsScreen">Raports</Link>

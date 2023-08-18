@@ -14,7 +14,6 @@ export type LabelTypeBase = Omit<Partial<LabelType>,
 'count'>
 
 export type ItemType = {
-    labelTypeSymbol: string;
     labelNumberPrefix: string;
     labelNumber: string;
     labelNumberSufix: string;
@@ -22,6 +21,7 @@ export type ItemType = {
 
 export type ItemRangeType = {
     id: string;
+    labelTypeSymbol: string; 
     firstItem: ItemType;
     lastItem: ItemType
 }
