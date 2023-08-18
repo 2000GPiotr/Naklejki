@@ -356,14 +356,12 @@ namespace TestsServices
                 {
                     FirstItem = new ItemDto()
                     {
-                        LabelTypeSymbol = "S2",
                         LabelNumberPrefix = "A",
                         LabelNumber = "1",
                         LabelNumberSuffix = ""
                     },
                     LastItem = new ItemDto()
                     {
-                        LabelTypeSymbol = "S2",
                         LabelNumberPrefix = "A",
                         LabelNumber = "3",
                         LabelNumberSuffix = ""
@@ -374,14 +372,12 @@ namespace TestsServices
                 {
                     FirstItem = new ItemDto()
                     {
-                        LabelTypeSymbol = "S3",
                         LabelNumberPrefix = "",
                         LabelNumber = "1",
                         LabelNumberSuffix = "B"
                     },
                     LastItem = new ItemDto()
                     {
-                        LabelTypeSymbol = "S3",
                         LabelNumberPrefix = "",
                         LabelNumber = "4",
                         LabelNumberSuffix = "B"
