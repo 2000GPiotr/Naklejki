@@ -36,12 +36,19 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ILabelTypeRepository, LabelTypeRepository>();
 builder.Services.AddScoped<ILabelStatusRepository, LabelStatusRepository>();
+builder.Services.AddScoped<IDocumentHeaderRepository, DocumentHeaderRepository>();
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
+builder.Services.AddScoped<IDocumentTypeRepository, DocumentTypeRepository>();
+builder.Services.AddScoped<IRegistryRepository, RegistryRepository>();
 
 builder.Services.AddScoped<ILabelTypeService, LabelTypeService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRolesService, RoleService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<ILabelStatusService, LabelStatusService>();
+builder.Services.AddScoped<IDocumentHeaderService, DocumentHeaderService>();
+builder.Services.AddScoped<IRegistryService, RegistryService>();
+builder.Services.AddScoped<IDocumentTypeService, DocumentTypeService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

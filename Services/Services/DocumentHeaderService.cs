@@ -18,19 +18,22 @@ namespace Services.Services
         private readonly IUserRepository _userRepository;
         private readonly IItemRepository _itemRepository;
         private readonly IDocumentTypeRepository _documentTypeRepository;
+        private readonly IRegistryService _registryService;
 
         public DocumentHeaderService(
             IMapper mapper, 
             IDocumentHeaderRepository documentRepository,
             IUserRepository userRepository,
             IItemRepository itemRepository,
-            IDocumentTypeRepository documentTypeRepository)
+            IDocumentTypeRepository documentTypeRepository,
+            IRegistryService registryService)
         {
             _mapper = mapper;
             _documentHeaderRepository = documentRepository;
             _userRepository = userRepository;
             _itemRepository = itemRepository;
             _documentTypeRepository = documentTypeRepository;
+            _registryService = registryService;
         }
 
         public async Task<DocumentDto> AddDocument(AddDocumentDto documentDto)
@@ -51,10 +54,16 @@ namespace Services.Services
                 newDocument.User = user;
             }
 
-            newDocument.DocumentType = await _documentTypeRepository.GetDocumentTypeBySymbol(documentDto.DocumentTypeSymbol);
+            var documentType = await _documentTypeRepository.GetDocumentTypeBySymbol(documentDto.DocumentTypeSymbol);
+
+            if(documentType == null)
+                throw new Exception("Wrong DocumentType Id");
+
+            newDocument.DocumentType = documentType;
+
+            await _registryService.HandleRegistryChanges(documentDto);
 
             var items = ItemRangeHelper.ConvertListItemRangesToItemList(documentDto.ItemsList, newDocument);
-
             newDocument.Items = items;
 
             await _documentHeaderRepository.AddDocument(newDocument);

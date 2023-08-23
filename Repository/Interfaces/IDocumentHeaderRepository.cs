@@ -13,7 +13,7 @@ namespace Repository.Interfaces
         Task DeleteDocument(DocumentHeader documentHeader);
         Task UpdateDocument(DocumentHeader documentHeader);
         Task<List<DocumentHeader>> GetAllDocuments();
-        Task<DocumentHeader> GetDocumentById(int id);
+        Task<DocumentHeader?> GetDocumentById(int id);
         Task<List<DocumentHeader>> GetDocumentsByUserId(int userId);
         Task<List<DocumentHeader>> GetDocumentsByType(string symbol);
     }

@@ -10,12 +10,11 @@ namespace Repository.Interfaces
     public interface IRegistryRepository
     {
         Task AddRegistry(RegistryItem registry);    //?
-        Task RemoveRegistry(RegistryItem registry); //?
-        Task UpdateRegistry(RegistryItem registry); //?
+        Task RemoveRegistry(RegistryItem registry);
+        Task UpdateRegistry(RegistryItem registry);
         Task<List<RegistryItem>> GetAllRegistry(); //?
         Task<List<RegistryItem>> GetRegistryByStatus(string symbol);
         Task AddRegistryRange(List<RegistryItem> registry);
-        Task RemoveRegistryRange(List<RegistryItem> registry);
-        Task UpdateRegistryRange(List<RegistryItem> registry);
+        Task<RegistryItem?> GetRegistryById(string labelNumberPrefix, string labelNumber, string labelNumberSufix, string labelTypeSymbol);
     }
 }
