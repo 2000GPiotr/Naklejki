@@ -4,6 +4,8 @@ import { UserContext } from "./UserContext";
 import ItemRangeCard from "./ItemRangeCard";
 import { DocumentTypeContext } from "./DocumentTypeContext";
 import { v4 } from 'uuid';
+import { postData } from "../Helpers";
+import { error } from "console";
 
 const DocumentScreen = () => {
   const [documentTypeSymbol, setDocumentTypeSymbol] = useState("");
@@ -21,7 +23,6 @@ const DocumentScreen = () => {
     setItemsList(prevItemsList => {
       const updatedItemsList = [...prevItemsList];
       updatedItemsList[index] = itemRange;
-      console.log("xDDD");
       return updatedItemsList;
     });
   };
@@ -52,6 +53,15 @@ const DocumentScreen = () => {
 
     // Wyślij dane do serwera lub wykonaj odpowiednie operacje
     console.log(newDocument);
+
+    postData('http://localhost:5021/DocumentHeader', newDocument)
+        .then(responseData => {
+          console.log('Response:', responseData)
+        })
+        .catch(error => {
+          console.log('Error: ', error);
+        })
+        .finally() //navigate 
 
     // Zresetuj stan formularza
     setDocumentTypeSymbol("");

@@ -7,10 +7,21 @@ export const DocumentTypeContext = createContext<DocumentType[]>([]);
 export const DocumentTypeProvider = ({ children }: {children: ReactNode;}) => {
   const [documentTypes, setDocumentTypes] = useState<DocumentType[]>([]);
 
+  const fetchDocumentTypes = (signal: AbortSignal) => {
+    const url = "http://localhost:5021/DocumentType";
+    return fetchData(url, signal);
+  };
+
   useEffect(() => {
-    setDocumentTypes([{symbol:"D1", description: "Desc 1"}, {symbol:"D2", description: "Desc 2"}]);
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetchDocumentTypes(signal)
+      .then((data) => setDocumentTypes(data))
+      .catch((error) => console.error("Error fetching roles:", error));
+      return () => {controller.abort()};
   }, []);
-  
 
   return (
     <DocumentTypeContext.Provider value={documentTypes}>
