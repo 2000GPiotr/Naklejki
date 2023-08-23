@@ -16,9 +16,6 @@ export type UserType = {
 export type UserBaseType = Omit<Partial<UserType>,
 'roles' | 'ShowDetails' | 'login'>
 
-export type BaseUserType = Omit<Partial<UserType>,
-'roles' | 'ShowDetails' | 'login'>
-
 export type CreateUserType = Omit<Partial<UserType>,
 'id' | 'ShowDetails' | 'roles'> 
 & {
