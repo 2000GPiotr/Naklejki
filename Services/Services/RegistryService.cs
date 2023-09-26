@@ -79,6 +79,39 @@ namespace Services.Services
             throw new NotImplementedException();
         }
 
+        public async Task<List<RegistryItemDto>> UpdateManyRegistryItems(List<ItemRangeDto> itemRanges, int userId, string statusId, DateTime time)
+        {
+            var registryItemsNumber = ItemRangeHelper.ConvertListItemRangesToRegistryItemIdList(itemRanges);
+
+            var items = new List<RegistryItem>();
+            foreach (var number in registryItemsNumber)
+            {
+                var item = await _registryRepository.GetRegistryById(number.LabelNumberPrefix, number.LabelNumber, number.LabelNumberSufix, number.LabelTypeId);
+                
+                if(item == null)
+                    throw new Exception("Somethink went wrong when taking registryItems");
+
+                if (item.LabelStatusId != "Dostepna")
+                    throw new Exception($"Naklejka nie jest dostepna; numer: {item.LabelType} {item.LabelNumberPrefix} {item.LabelNumber} {item.LabelNumberSufix}");
+
+                items.Add(item);
+            }
+
+            foreach (var item in items)
+            {
+                item.LabelStatusId = statusId;
+                item.UserId = userId;
+                item.LabelEndTime = time;
+            }
+
+
+            await _registryRepository.UpdateManyRegistryItems(items);
+
+            var toReturn = _mapper.Map<List<RegistryItemDto>>(items);
+
+            return toReturn;
+        }
+
         public async Task HandleRegistryChanges(AddDocumentDto documentDto)
         {
             var documentType = documentDto.DocumentTypeSymbol;
@@ -86,16 +119,26 @@ namespace Services.Services
             switch(documentType)
             {
                 case "Przyjecie":
-                    var status = "Dostepna";
-                    await AddManyRegistryItem(documentDto.ItemsList, documentDto.UserId, status, documentDto.Date);
+                    await HandlePrzyjecieDocument(documentDto);
                     break;
-
+                case "Wydanie":
+                    await HandleWydanieDocument(documentDto);
+                    break;
                 default:
                     throw new Exception("Somethink went wrong in HandleRegistryChanges()");
             }
-
-            return;
         }
 
+        private async Task HandlePrzyjecieDocument(AddDocumentDto documentDto)
+        {
+            var status = "Dostepna";
+            await AddManyRegistryItem(documentDto.ItemsList, documentDto.UserId, status, documentDto.Date);
+        }
+
+        private async Task HandleWydanieDocument(AddDocumentDto documentDto)
+        {
+            var status = "Wydana";
+            await UpdateManyRegistryItems(documentDto.ItemsList, documentDto.UserId, status, documentDto.Date);
+        }
     }
 }

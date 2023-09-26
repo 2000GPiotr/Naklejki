@@ -16,5 +16,6 @@ namespace Repository.Interfaces
         Task<List<RegistryItem>> GetRegistryByStatus(string symbol);
         Task AddRegistryRange(List<RegistryItem> registry);
         Task<RegistryItem?> GetRegistryById(string labelNumberPrefix, string labelNumber, string labelNumberSufix, string labelTypeSymbol);
+        Task UpdateManyRegistryItems(List<RegistryItem> items);
     }
 }

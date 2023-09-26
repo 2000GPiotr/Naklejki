@@ -17,5 +17,6 @@ namespace Services.Interfaces
         Task<RegistryItemDto> DeleteRegistryItem(RegistryItemIdDto registryItemId);
         Task<RegistryItemDto> UpdateRegistryItem(RegistryItemDto registryItem); // ???
         Task HandleRegistryChanges(AddDocumentDto documentDto);
+        Task<List<RegistryItemDto>> UpdateManyRegistryItems(List<ItemRangeDto> itemRanges, int userId, string statusId, DateTime time);
     }
 }

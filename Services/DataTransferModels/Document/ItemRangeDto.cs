@@ -11,7 +11,7 @@ namespace Services.DataTransferModels.Document
     {
         public string Id { get; set; }
         public string LabelTypeSymbol { get; set; }
-        public ItemDto FirstItem { get; set; }
-        public ItemDto LastItem { get; set; }
+        public CreateItemDto FirstItem { get; set; }
+        public CreateItemDto LastItem { get; set; }
     }
 }

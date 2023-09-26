@@ -62,6 +62,14 @@ namespace Repository.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task UpdateManyRegistryItems(List<RegistryItem> items)
+        {
+            foreach (var item in items)
+                _dbContext.Entry(item).State = EntityState.Modified;
+
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<RegistryItem?> GetRegistryById(string labelNumberPrefix, string labelNumber, string labelNumberSufix, string labelTypeSymbol)
         {
             return await _dbContext
