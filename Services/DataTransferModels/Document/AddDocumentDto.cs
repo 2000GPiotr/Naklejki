@@ -13,7 +13,7 @@ namespace Services.DataTransferModels.Document
         public int Number { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
         public List<ItemRangeDto> ItemsList { get; set; } = new List<ItemRangeDto>();
     }
 }

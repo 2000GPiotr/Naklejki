@@ -20,11 +20,13 @@ namespace API.MappingProfiles
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Symbol));
 
             CreateMap<Item, ItemDto>()
+                .ForMember(dest => dest.LabelTypeSymbol, opt => opt.MapFrom(src => src.LabelTypeSymbol))
                 .ForMember(dest => dest.LabelNumberPrefix, opt => opt.MapFrom(src => src.LabelNumberPrefix))
                 .ForMember(dest => dest.LabelNumber, opt => opt.MapFrom(src => src.LabelNumber))
                 .ForMember(dest => dest.LabelNumberSufix, opt => opt.MapFrom(src => src.LabelNumberSufix));
 
             CreateMap<DocumentHeader, DocumentDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Year))
                 .ForMember(dest => dest.Number, opt => opt.MapFrom(src => src.Number))
                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date))

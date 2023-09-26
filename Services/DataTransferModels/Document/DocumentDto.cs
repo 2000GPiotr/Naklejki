@@ -9,6 +9,7 @@ namespace Services.DataTransferModels.Document
 {
     public class DocumentDto
     {
+        public int Id { get; set; }
         public DocumentTypeDto DocumentType { get; set; }
         public int Year { get; set; }
         public int Number { get; set; }

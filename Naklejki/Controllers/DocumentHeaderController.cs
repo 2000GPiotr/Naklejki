@@ -16,7 +16,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<DocumentDto>> CreateDocument(AddDocumentDto documentDto)
+        public async Task<ActionResult<DocumentDto>> CreateDocument([FromBody]AddDocumentDto documentDto)
         {
             try
             {
@@ -36,6 +36,20 @@ namespace API.Controllers
             {
                 var documentHeaders = await _documentHeaderService.GetAllDocuments();
                 return Ok(documentHeaders);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<DocumentDto>> UpdateDocumentHeader([FromBody] UpdateDocumentHeaderDto updateDocumentHeaderDto, int id)
+        {
+            try
+            {
+                var documentHeader = await _documentHeaderService.UpdateDocument(updateDocumentHeaderDto, id);
+                return Ok(documentHeader);
             }
             catch(Exception e)
             {

@@ -131,6 +131,20 @@ namespace Services.Services
 
             _mapper.Map(documentDto, document);
 
+            if (documentDto.UserId < 0 || documentDto.UserId == null)
+            {
+                document.User = null;
+            }
+            else
+            {
+                var user = await _userRepository.GetUserById((int)documentDto.UserId);
+
+                if (user == null)
+                    throw new Exception("Wrong User Id");
+
+                document.User = user;
+            }
+
             await _documentHeaderRepository.UpdateDocument(document);
 
             var toReturn = _mapper.Map<DocumentDto>(document);

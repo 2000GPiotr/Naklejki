@@ -8,7 +8,6 @@ namespace Services.DataTransferModels.Document
 {
     public class UpdateDocumentHeaderDto
     {
-        public string DocumentTypeSymbol { get; set; }
         public int Year { get; set; }
         public int Number { get; set; }
         public DateTime Date { get; set; }
