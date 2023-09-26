@@ -1,6 +1,6 @@
 import React from "react"
 import { UpdateUserType, UserType } from "./UserTypes";
-import './UserManagementScreen.css'
+import './Styles/UserManagementScreen.css'
 
 type PropsType = {
    user:  UserType;

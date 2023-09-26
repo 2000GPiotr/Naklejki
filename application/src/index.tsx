@@ -4,13 +4,12 @@ import './index.css';
 // import App from './App';
 import reportWebVitals from './reportWebVitals';
 // import ToDoList from './ToDo/ToDoList';
-import UserList from './UserManagementScreen/UserList';
 import { RoleProvider } from './UserManagementScreen/RoleContext';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import { LabelTypeProvider } from './LabelManagementScreen/LabelTypeContext';
-import { UserProvider } from './LabelManagementScreen/UserContext';
-import { DocumentTypeProvider } from './LabelManagementScreen/DocumentTypeContext';
+import { LabelTypeProvider } from './LabelManagementScreen/Contexts/LabelTypeContext';
+import { UserProvider } from './LabelManagementScreen/Contexts/UserContext';
+import { DocumentTypeProvider } from './LabelManagementScreen/Contexts/DocumentTypeContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -22,7 +21,6 @@ root.render(
           <DocumentTypeProvider>
             <UserProvider>
               <BrowserRouter>
-              {/* <UserList /> */}
                 <App/>
               </BrowserRouter>
             </UserProvider>

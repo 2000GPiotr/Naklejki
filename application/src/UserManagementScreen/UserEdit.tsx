@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { RoleType, UpdateUserType, UserType } from "./UserTypes";
-import './UserManagementScreen.css'
 import { putData } from "../Helpers";
 import { RoleContext } from "./RoleContext";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -34,11 +33,11 @@ const UserEdit = () => {
       .catch(error => {
         console.error('Error: ', error);
       })
-      .finally(() => navigate("/UserManagementScreen"));
+      .finally(() => navigate("/Users"));
   };
 
   const handleCancel = () => {
-    navigate("/UserManagementScreen")
+    navigate("/Users")
   };
   
   const handleRoleChange = (role: RoleType, isChecked: boolean) => {
