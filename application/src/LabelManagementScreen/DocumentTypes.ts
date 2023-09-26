@@ -1,5 +1,6 @@
+import { UserBaseType } from "../UserManagementScreen/UserTypes";
 
-export type DocumentType = {
+export type DocumentTypeType = {
     symbol: string;
     description: string;
 }
@@ -19,6 +20,10 @@ export type ItemType = {
     labelNumberSufix: string;
 }
 
+export type ItemFullType = ItemType & {
+    labelTypeSymbol: string;
+  };
+
 export type ItemRangeType = {
     id: string;
     labelTypeSymbol: string; 
@@ -26,12 +31,29 @@ export type ItemRangeType = {
     lastItem: ItemType
 }
 
-export type AddDocumentType = {
-    documentTypeSymbol: string;
+export type DocumentHeaderType = {
+    id: number;
+    documentType: DocumentTypeType;
     year: number;
     number: number;
     date: Date;
     description: string;
-    userId: number | null;
-    itemsList: ItemRangeType[];    
+    user: UserBaseType | null;
+    itemList: ItemFullType[];
 }
+
+export type AddDocumentType = Omit<Partial<DocumentHeaderType>,
+    'id' | 'documentType' | 'user' | 'itemList'>
+    &{
+        documentTypeSymbol: string;
+        userId: number | null;
+        itemsList: ItemRangeType[];  
+    };
+
+export type UpdateDocumentType = Omit<Partial<DocumentHeaderType>,
+    'user' | 'itemList'>
+    &{
+        userId: number | null;
+        date: Date
+    };
+    

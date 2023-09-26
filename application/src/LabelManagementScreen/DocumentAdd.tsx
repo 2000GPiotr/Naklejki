@@ -1,11 +1,11 @@
 import React, { useState, useContext } from "react";
 import { ItemRangeType, AddDocumentType } from "./DocumentTypes";
-import { UserContext } from "./UserContext";
+import { UserContext } from "./Contexts/UserContext";
 import ItemRangeCard from "./ItemRangeCard";
-import { DocumentTypeContext } from "./DocumentTypeContext";
+import { DocumentTypeContext } from "./Contexts/DocumentTypeContext";
 import { v4 } from 'uuid';
 import { postData } from "../Helpers";
-import { error } from "console";
+import { useNavigate } from "react-router-dom";
 
 const DocumentScreen = () => {
   const [documentTypeSymbol, setDocumentTypeSymbol] = useState("");
@@ -18,6 +18,8 @@ const DocumentScreen = () => {
   
   const users = useContext(UserContext);
   const documentTypes = useContext(DocumentTypeContext);
+
+  const navigate = useNavigate();
 
   const handleItemRangeChange = (index: number, itemRange: ItemRangeType) => {
     setItemsList(prevItemsList => {
@@ -61,7 +63,7 @@ const DocumentScreen = () => {
         .catch(error => {
           console.log('Error: ', error);
         })
-        .finally() //navigate 
+        .finally(() => navigate("/Documents")) //navigate 
 
     // Zresetuj stan formularza
     setDocumentTypeSymbol("");
@@ -78,7 +80,7 @@ const DocumentScreen = () => {
       <div>
         Document Type Symbol:
         <select value={documentTypeSymbol} onChange={(e) => setDocumentTypeSymbol(e.target.value)}>
-          <option value="">Select</option>
+          <option value='null'>Select</option>
           {documentTypes.map((type) => (
             <option key={type.symbol} value={type.symbol}>
               {type.symbol}

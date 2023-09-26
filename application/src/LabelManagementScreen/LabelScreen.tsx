@@ -1,4 +1,4 @@
-import DocumentScreen from "./AddDocumentScreen";
+import DocumentScreen from "./DocumentAdd";
 
 const LabelList = () => {
     return(

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { ItemType, ItemRangeType } from './DocumentTypes';
-import {LabelTypeContext } from './LabelTypeContext';
+import {LabelTypeContext } from './Contexts/LabelTypeContext';
 
 export type ItemRangeCardProps = {
   itemRange: ItemRangeType;
