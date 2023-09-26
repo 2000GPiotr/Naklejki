@@ -4,6 +4,7 @@ using Moq;
 using Repository.Interfaces;
 using Services.DataTransferModels.Document;
 using Services.DataTransferModels.User;
+using Services.Interfaces;
 using Services.Services;
 
 namespace TestsServices
@@ -89,7 +90,9 @@ namespace TestsServices
 
             var documentTypeRepositoryMock = new Mock<IDocumentTypeRepository>();
 
-            var _documentHeaderService = new DocumentHeaderService(mapperMock.Object, documentHeaderRepositoryMock.Object, userRepositoryMock.Object, itemRepositoryMock.Object, documentTypeRepositoryMock.Object);
+            var registryServiceMock = new Mock<IRegistryService>();
+
+            var _documentHeaderService = new DocumentHeaderService(mapperMock.Object, documentHeaderRepositoryMock.Object, userRepositoryMock.Object, itemRepositoryMock.Object, documentTypeRepositoryMock.Object, registryServiceMock.Object);
 
             // Act
             var result = await _documentHeaderService.GetAllDocuments();
@@ -149,7 +152,9 @@ namespace TestsServices
 
             var documentTypeRepositoryMock = new Mock<IDocumentTypeRepository>();
 
-            var _documentHeaderService = new DocumentHeaderService(mapperMock.Object, documentHeaderRepositoryMock.Object, userRepositoryMock.Object, itemRepositoryMock.Object, documentTypeRepositoryMock.Object);
+            var registryServiceMock = new Mock<IRegistryService>();
+
+            var _documentHeaderService = new DocumentHeaderService(mapperMock.Object, documentHeaderRepositoryMock.Object, userRepositoryMock.Object, itemRepositoryMock.Object, documentTypeRepositoryMock.Object, registryServiceMock.Object);
 
             // Act
             var result = await _documentHeaderService.GetDocumentById(documentId);
@@ -242,7 +247,9 @@ namespace TestsServices
 
             var documentTypeRepositoryMock = new Mock<IDocumentTypeRepository>();
 
-            var _documentHeaderService = new DocumentHeaderService(mapperMock.Object, documentHeaderRepositoryMock.Object, userRepositoryMock.Object, itemRepositoryMock.Object, documentTypeRepositoryMock.Object);
+            var registryServiceMock = new Mock<IRegistryService>();
+
+            var _documentHeaderService = new DocumentHeaderService(mapperMock.Object, documentHeaderRepositoryMock.Object, userRepositoryMock.Object, itemRepositoryMock.Object, documentTypeRepositoryMock.Object, registryServiceMock.Object);
 
             // Act
             var result = await _documentHeaderService.GetDocumentsByType(symbol);
@@ -335,7 +342,9 @@ namespace TestsServices
 
             var documentTypeRepositoryMock = new Mock<IDocumentTypeRepository>();
 
-            var _documentHeaderService = new DocumentHeaderService(mapperMock.Object, documentHeaderRepositoryMock.Object, userRepositoryMock.Object, itemRepositoryMock.Object, documentTypeRepositoryMock.Object);
+            var registryServiceMock = new Mock<IRegistryService>();
+
+            var _documentHeaderService = new DocumentHeaderService(mapperMock.Object, documentHeaderRepositoryMock.Object, userRepositoryMock.Object, itemRepositoryMock.Object, documentTypeRepositoryMock.Object, registryServiceMock.Object);
 
             // Act
             var result = await _documentHeaderService.GetDocumentsByUserId(userId);
@@ -354,33 +363,33 @@ namespace TestsServices
             {
                 new ItemRangeDto()
                 {
-                    FirstItem = new ItemDto()
+                    FirstItem = new CreateItemDto()
                     {
                         LabelNumberPrefix = "A",
                         LabelNumber = "1",
-                        LabelNumberSuffix = ""
+                        LabelNumberSufix = ""
                     },
-                    LastItem = new ItemDto()
+                    LastItem = new CreateItemDto()
                     {
                         LabelNumberPrefix = "A",
                         LabelNumber = "3",
-                        LabelNumberSuffix = ""
+                        LabelNumberSufix = ""
                     },
                     LabelTypeSymbol = "S2"
                 },
                 new ItemRangeDto()
                 {
-                    FirstItem = new ItemDto()
+                    FirstItem = new CreateItemDto()
                     {
                         LabelNumberPrefix = "",
                         LabelNumber = "1",
-                        LabelNumberSuffix = "B"
+                        LabelNumberSufix = "B"
                     },
-                    LastItem = new ItemDto()
+                    LastItem = new CreateItemDto()
                     {
                         LabelNumberPrefix = "",
                         LabelNumber = "4",
-                        LabelNumberSuffix = "B"
+                        LabelNumberSufix = "B"
                     },
                     LabelTypeSymbol = "S3"
                 }
@@ -449,7 +458,9 @@ namespace TestsServices
 
             var itemRepositoryMock = new Mock<IItemRepository>();
 
-            var _documentHeaderService = new DocumentHeaderService(mapperMock.Object, documentHeaderRepositoryMock.Object, userRepositoryMock.Object, itemRepositoryMock.Object, documentTypeRepositoryMock.Object);
+            var registryServiceMock = new Mock<IRegistryService>();
+
+            var _documentHeaderService = new DocumentHeaderService(mapperMock.Object, documentHeaderRepositoryMock.Object, userRepositoryMock.Object, itemRepositoryMock.Object, documentTypeRepositoryMock.Object, registryServiceMock.Object);
 
             // Act
             var result = await _documentHeaderService.AddDocument(addDocumentDto);
@@ -486,13 +497,15 @@ namespace TestsServices
             var userRepositoryMock = new Mock<IUserRepository>();
             var itemRepositoryMock = new Mock<IItemRepository>();
             var documentTypeRepositoryMock = new Mock<IDocumentTypeRepository>();
+            var registryServiceMock = new Mock<IRegistryService>();
 
             var documentHeaderService = new DocumentHeaderService(
                 mapperMock.Object,
                 documentHeaderRepositoryMock.Object,
                 userRepositoryMock.Object,
                 itemRepositoryMock.Object,
-                documentTypeRepositoryMock.Object);
+                documentTypeRepositoryMock.Object,
+                registryServiceMock.Object);
 
             // Act
             var result = await documentHeaderService.DeleteDocument(documentId);
@@ -520,13 +533,15 @@ namespace TestsServices
             var userRepositoryMock = new Mock<IUserRepository>();
             var itemRepositoryMock = new Mock<IItemRepository>();
             var documentTypeRepositoryMock = new Mock<IDocumentTypeRepository>();
+            var registryServiceMock = new Mock<IRegistryService>();
 
             var documentHeaderService = new DocumentHeaderService(
                 mapperMock.Object,
                 documentHeaderRepositoryMock.Object,
                 userRepositoryMock.Object,
                 itemRepositoryMock.Object,
-                documentTypeRepositoryMock.Object);
+                documentTypeRepositoryMock.Object,
+                registryServiceMock.Object);
 
             // Act & Assert
             await Assert.ThrowsAsync<Exception>(async () => await documentHeaderService.DeleteDocument(documentId));
@@ -560,12 +575,15 @@ namespace TestsServices
             var itemRepositoryMock = new Mock<IItemRepository>();
             var documentTypeRepositoryMock = new Mock<IDocumentTypeRepository>();
 
+            var registryServiceMock = new Mock<IRegistryService>();
+
             var documentHeaderService = new DocumentHeaderService(
                 mapperMock.Object,
                 documentHeaderRepositoryMock.Object,
                 userRepositoryMock.Object,
                 itemRepositoryMock.Object,
-                documentTypeRepositoryMock.Object);
+                documentTypeRepositoryMock.Object,
+                registryServiceMock.Object);
 
             // Act
             var result = await documentHeaderService.UpdateDocument(documentDto, documentId);
@@ -595,13 +613,15 @@ namespace TestsServices
             var userRepositoryMock = new Mock<IUserRepository>();
             var itemRepositoryMock = new Mock<IItemRepository>();
             var documentTypeRepositoryMock = new Mock<IDocumentTypeRepository>();
+            var registryServiceMock = new Mock<IRegistryService>();
 
             var documentHeaderService = new DocumentHeaderService(
                 mapperMock.Object,
                 documentHeaderRepositoryMock.Object,
                 userRepositoryMock.Object,
                 itemRepositoryMock.Object,
-                documentTypeRepositoryMock.Object);
+                documentTypeRepositoryMock.Object,
+                registryServiceMock.Object);
 
             // Act & Assert
             await Assert.ThrowsAsync<Exception>(async () => await documentHeaderService.UpdateDocument(documentDto, documentId));

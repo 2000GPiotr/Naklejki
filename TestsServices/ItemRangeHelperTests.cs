@@ -18,17 +18,17 @@ namespace TestsServices
             // Arrange
             var itemRange = new ItemRangeDto()
             {
-                FirstItem = new ItemDto()
+                FirstItem = new CreateItemDto()
                 {
                     LabelNumberPrefix = "A",
                     LabelNumber = "1",
-                    LabelNumberSuffix = ""
+                    LabelNumberSufix = ""
                 },
-                LastItem = new ItemDto()
+                LastItem = new CreateItemDto()
                 {
                     LabelNumberPrefix = "A",
                     LabelNumber = "3",
-                    LabelNumberSuffix = ""
+                    LabelNumberSufix = ""
                 },
                 LabelTypeSymbol = "S2"
             };
@@ -76,33 +76,33 @@ namespace TestsServices
             {
                 new ItemRangeDto()
                 {
-                    FirstItem = new ItemDto()
+                    FirstItem = new CreateItemDto()
                     {
                         LabelNumberPrefix = "A",
                         LabelNumber = "1",
-                        LabelNumberSuffix = ""
+                        LabelNumberSufix = ""
                     },
-                    LastItem = new ItemDto()
+                    LastItem = new CreateItemDto()
                     {
                         LabelNumberPrefix = "A",
                         LabelNumber = "3",
-                        LabelNumberSuffix = ""
+                        LabelNumberSufix = ""
                     },
                     LabelTypeSymbol = "S2"
                 },
                 new ItemRangeDto()
                 {
-                    FirstItem = new ItemDto()
+                    FirstItem = new CreateItemDto()
                     {
                         LabelNumberPrefix = "",
                         LabelNumber = "1",
-                        LabelNumberSuffix = "B"
+                        LabelNumberSufix = "B"
                     },
-                    LastItem = new ItemDto()
+                    LastItem = new CreateItemDto()
                     {
                         LabelNumberPrefix = "",
                         LabelNumber = "4",
-                        LabelNumberSuffix = "B"
+                        LabelNumberSufix = "B"
                     },
                     LabelTypeSymbol = "S3"
                 }
