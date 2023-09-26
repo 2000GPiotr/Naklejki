@@ -1,6 +1,6 @@
 import React, { ReactNode, createContext, useEffect, useState } from "react";
-import { fetchData } from "../Helpers";
-import{ LabelTypeBase} from "./DocumentTypes"
+import { fetchData } from "../../Helpers";
+import{ LabelTypeBase} from "../DocumentTypes"
 
 export const LabelTypeContext = createContext<LabelTypeBase[]>([]);
 

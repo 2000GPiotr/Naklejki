@@ -1,11 +1,11 @@
 import React, { ReactNode, createContext, useEffect, useState } from "react";
-import { fetchData } from "../Helpers";
-import{ DocumentType} from "./DocumentTypes"
+import { fetchData } from "../../Helpers";
+import{ DocumentTypeType} from "../DocumentTypes"
 
-export const DocumentTypeContext = createContext<DocumentType[]>([]);
+export const DocumentTypeContext = createContext<DocumentTypeType[]>([]);
 
 export const DocumentTypeProvider = ({ children }: {children: ReactNode;}) => {
-  const [documentTypes, setDocumentTypes] = useState<DocumentType[]>([]);
+  const [documentTypes, setDocumentTypes] = useState<DocumentTypeType[]>([]);
 
   const fetchDocumentTypes = (signal: AbortSignal) => {
     const url = "http://localhost:5021/DocumentType";

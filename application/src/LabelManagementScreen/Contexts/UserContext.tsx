@@ -1,6 +1,6 @@
 import React, { ReactNode, createContext, useEffect, useState } from "react";
-import { fetchData } from "../Helpers";
-import { UserBaseType, UserType } from "../UserManagementScreen/UserTypes";
+import { fetchData } from "../../Helpers";
+import { UserBaseType, UserType } from "../../UserManagementScreen/UserTypes";
 
 export const UserContext = createContext<UserBaseType[]>([]);
 
